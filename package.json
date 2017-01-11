@@ -9,7 +9,7 @@
     "publisher": "prashaantt",
     "license": "MIT",
     "engines": {
-        "vscode": "^0.10.0"
+        "vscode": "^1.8.0"
     },
     "categories": [
         "Other"
