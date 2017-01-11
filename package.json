@@ -1,0 +1,87 @@
+{
+    "name": "node-tdd",
+    "version": "0.1.0",
+    "displayName": "Node TDD",
+    "description": "A simple TDD extension for Node.",
+    "main": "./out/src/extension",
+    "repository": "https://github.com/prashaantt/node-tdd.git",
+    "author": "Prashant Tiwari <prashaantt@gmail.com>",
+    "publisher": "prashaantt",
+    "license": "MIT",
+    "engines": {
+        "vscode": "^0.10.0"
+    },
+    "categories": [
+        "Debuggers"
+    ],
+    "devDependencies": {
+        "@types/mocha": "^2.2.37",
+        "@types/node": "^6.0.59",
+        "mocha": "^3.2.0",
+        "typescript": "^2.1.4",
+        "vscode": "^1.0.3"
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "activationEvents": [
+        "onLanguage:javascript",
+        "onLanguage:javascriptreact",
+        "onLanguage:typescript",
+        "onLanguage:typescriptreact"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "nodeTdd.activate",
+                "title": "Node TDD: Activate"
+            },
+            {
+                "command": "nodeTdd.deactivate",
+                "title": "Node TDD: Deactivate"
+            },
+            {
+                "command": "nodeTdd.showOutput",
+                "title": "Node TDD: Show error output"
+            }
+        ],
+        "configuration": {
+            "title": "Configuration for Node TDD",
+            "properties": {
+                "nodeTdd.glob": {
+                    "description": "Set the glob pattern for the files to watch for changes.",
+                    "type": "string",
+                    "default": "**/*.{j,t}s"
+                },
+                "nodeTdd.testScript": {
+                    "description": "Set the npm script to run (if other than `test`).",
+                    "type": "string",
+                    "default": "test"
+                },
+                "nodeTdd.runOnActivation": {
+                    "description": "Choose whether to run tests when the extension gets first activated in a workspace.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "nodeTdd.buildOnCreate": {
+                    "description": "Choose whether to re-run tests when new files are created. Use this with caution.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "nodeTdd.buildOnDelete": {
+                    "description": "Choose whether to re-run tests when files are deleted. Use this with caution.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "nodeTdd.verbose": {
+                    "description": "Choose whether to offer to show test failure output.",
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        }
+    }
+}
