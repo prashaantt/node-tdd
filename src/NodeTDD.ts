@@ -31,7 +31,6 @@ export class NodeTDD {
 
         this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
         this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
-        this.buildStatusBar.command = constants.SHOW_OUTPUT_COMMAND;
 
         this.activate();
 

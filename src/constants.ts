@@ -17,12 +17,16 @@ export const constants = {
 
     FAILING_MESSAGE: {
         text: '$(alert) Failing',
-        color: '#ff7373'
+        color: '#ff7373',
+        tooltip: 'Toggle output',
+        command: 'nodeTdd.toggleOutput'
     },
 
     PASSING_MESSAGE: {
         text: '$(check) Passing',
-        color: '#55e269'
+        color: '#55e269',
+        tooltip: 'Toggle output',
+        command: 'nodeTdd.toggleOutput'
     },
 
     BUILDING_TEXT: '$(tools) Building',
