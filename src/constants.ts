@@ -1,17 +1,37 @@
 export const constants = {
     CONFIG_SECTION_KEY: 'nodeTdd',
-
+    SHOW_OUTPUT_COMMAND: 'nodeTdd.toggleOutput',
     OUTPUT_CHANNEL_NAME: 'TDD',
+
+    ACTIVATE_EXTENSION: {
+        text: 'TDD $(rocket)',
+        tooltip: 'TDD mode is active',
+        command: 'nodeTdd.deactivate',
+    },
+
+    DEACTIVATE_EXTENSION: {
+        text: 'TDD $(circle-slash)',
+        tooltip: 'TDD mode is inactive',
+        command: 'nodeTdd.activate',
+    },
+
+    FAILING_MESSAGE: {
+        text: '$(alert) Failing',
+        color: '#ff7373'
+    },
+
+    PASSING_MESSAGE: {
+        text: '$(check) Passing',
+        color: '#55e269'
+    },
 
     BUILDING_TEXT: '$(tools) Building',
     BUILDING_TEXT_COLOR: 'inherit',
     BUILDING_ANIMATION_SPEED: 300,
 
-    FAILING_TEXT: '$(stop) Failing',
-    FAILING_TEXT_COLOR: '#ff7373',
-    FAILING_TEXT_MESSAGE: 'The build failed.',
-    FAILING_TEXT_OUTPUT_PROMPT: 'Show output',
+    scriptNotFound: function (scriptName: string) {
+        return `Node TDD: npm script '${scriptName}' not found.`;
+    },
 
-    PASSING_TEXT: '$(check) Passing',
-    PASSING_TEXT_COLOR: '#55e269'
+    OPEN_PACKAGE_JSON: 'Open package.json'
 }

@@ -44,17 +44,17 @@
                 "title": "Node TDD: Deactivate"
             },
             {
-                "command": "nodeTdd.showOutput",
-                "title": "Node TDD: Show error output"
+                "command": "nodeTdd.toggleOutput",
+                "title": "Node TDD: Toggle output"
             }
         ],
         "configuration": {
             "title": "Configuration for Node TDD",
             "properties": {
                 "nodeTdd.glob": {
-                    "description": "Set the glob pattern for the files to watch for changes.",
+                    "description": "Set the glob pattern for files to watch, relative to the workspace root.",
                     "type": "string",
-                    "default": "**/*.{j,t}s"
+                    "default": "{test,src}/**/*.{js,ts,jsx,tsx}"
                 },
                 "nodeTdd.testScript": {
                     "description": "Set the npm script to run (if other than `test`).",
@@ -64,7 +64,7 @@
                 "nodeTdd.runOnActivation": {
                     "description": "Choose whether to run tests when the extension gets first activated in a workspace.",
                     "type": "boolean",
-                    "default": true
+                    "default": false
                 },
                 "nodeTdd.buildOnCreate": {
                     "description": "Choose whether to re-run tests when new files are created. Use this with caution.",
@@ -75,11 +75,6 @@
                     "description": "Choose whether to re-run tests when files are deleted. Use this with caution.",
                     "type": "boolean",
                     "default": false
-                },
-                "nodeTdd.verbose": {
-                    "description": "Choose whether to offer to show test failure output.",
-                    "type": "boolean",
-                    "default": true
                 }
             }
         }

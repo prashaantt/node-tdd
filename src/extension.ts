@@ -1,42 +1,30 @@
 import * as Code from 'vscode';
 
-import { TestRunner } from './TestRunner';
-import { constants } from './constants';
+import { NodeTDD } from './NodeTDD';
 
-let testRunner: TestRunner;
+let nodeTdd: NodeTDD;
 
-export function activate(context: Code.ExtensionContext) {
-    const config = Code.workspace.getConfiguration(constants.CONFIG_SECTION_KEY);
-
-    testRunner = new TestRunner(config);
-
-    if (config.get('runOnActivation')) {
-        testRunner.run();
-    }
+export function activate() {
+    nodeTdd = NodeTDD.getInstance();
 
     Code.commands.registerCommand('nodeTdd.activate', () => {
 
-        const activated = testRunner.activate();
-
-        if (activated !== false && config.get('runOnActivation')) {
-
-            testRunner.run();
-        }
+        nodeTdd.activate();
     });
 
     Code.commands.registerCommand('nodeTdd.deactivate', () => {
 
-        testRunner.deactivate();
+        nodeTdd.deactivate();
     });
 
-    Code.commands.registerCommand('nodeTdd.showOutput', () => {
+    Code.commands.registerCommand('nodeTdd.toggleOutput', () => {
 
-        testRunner.toggleOutputChannel();
+        nodeTdd.toggleOutput();
     });
 }
 
 export function deactivate() {
-    if (testRunner) {
-        testRunner.dispose();
+    if (nodeTdd) {
+        nodeTdd.dispose();
     }
 }
