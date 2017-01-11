@@ -102,6 +102,4 @@ export class NodeTDD {
         this.outputChannel.dispose();
         this.testRunner.dispose();
     }
-
-    noop() { }
 }
