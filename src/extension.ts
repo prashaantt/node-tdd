@@ -2,29 +2,25 @@ import * as Code from 'vscode';
 
 import { NodeTDD } from './NodeTDD';
 
-let nodeTdd: NodeTDD;
+export function activate(context: Code.ExtensionContext) {
+    const nodeTdd = NodeTDD.getInstance();
 
-export function activate() {
-    nodeTdd = NodeTDD.getInstance();
-
-    Code.commands.registerCommand('nodeTdd.activate', () => {
+    const activateCommand = Code.commands.registerCommand('nodeTdd.activate', () => {
 
         nodeTdd.activate();
     });
 
-    Code.commands.registerCommand('nodeTdd.deactivate', () => {
+    const deactivateCommand = Code.commands.registerCommand('nodeTdd.deactivate', () => {
 
         nodeTdd.deactivate();
     });
 
-    Code.commands.registerCommand('nodeTdd.toggleOutput', () => {
+    const toggleOutputCommand = Code.commands.registerCommand('nodeTdd.toggleOutput', () => {
 
         nodeTdd.toggleOutput();
     });
+
+    context.subscriptions.push(activateCommand, deactivateCommand, toggleOutputCommand, nodeTdd);
 }
 
-export function deactivate() {
-    if (nodeTdd) {
-        nodeTdd.dispose();
-    }
-}
+export function deactivate() { }
