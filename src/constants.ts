@@ -46,7 +46,7 @@ export const constants = {
     BUILD_STOPPED_MESSAGE: {
         text: 'Build stopped',
         color: 'inherit',
-        tooltip: 'Trigger fresh build by hitting save',
+        tooltip: '',
         command: ''
     },
 

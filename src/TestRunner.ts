@@ -89,15 +89,22 @@ export class TestRunner {
 
         NodeTDD.getInstance().clearOutput();
 
-        NodeTDD.getInstance().setBuildStatusBar(constants.BUILDING_MESSAGE);
+        NodeTDD.getInstance().setBuildStatusBar({
+            ...constants.BUILDING_MESSAGE,
+            text: constants.BUILDING_MESSAGE.text + ' '.repeat(4)
+        });
+
         NodeTDD.getInstance().showBuildStatusBar();
 
         let count = 1;
 
         const interval = setInterval(() => {
 
+            const dots = count++ % 4;
+            const spaces = 4 - dots;
+
             NodeTDD.getInstance().setBuildStatusBar({
-                text: constants.BUILDING_MESSAGE.text + '.'.repeat(count++ % 4)
+                text: constants.BUILDING_MESSAGE.text + '.'.repeat(dots) + ' '.repeat(spaces)
             });
         }, constants.BUILDING_ANIMATION_SPEED);
 
