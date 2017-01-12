@@ -10,6 +10,7 @@ export class NodeTDD {
     private outputShown = false;
     private extensionStatusBar: StatusBarItem;
     private buildStatusBar: StatusBarItem;
+    private coverageStatusBar: StatusBarItem;
     private outputChannel: OutputChannel;
     private testRunner: TestRunner;
 
@@ -29,8 +30,9 @@ export class NodeTDD {
         this.outputChannel = window.createOutputChannel(constants.OUTPUT_CHANNEL_NAME);
         this.testRunner = new TestRunner();
 
-        this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
-        this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
+        this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 3);
+        this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
+        this.coverageStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
 
         const activateOnStartup = NodeTDD.getConfig().get<boolean>('activateOnStartup');
 
@@ -49,11 +51,13 @@ export class NodeTDD {
         this.showBuildStatusBar();
         Object.assign(this.extensionStatusBar, constants.ACTIVATE_EXTENSION);
         this.testRunner.watch();
+        this.showCoverageStatusBar();
     }
 
     deactivate() {
         this.enabled = false;
         this.hideBuildStatusBar();
+        this.hideCoverageStatusBar();
         Object.assign(this.extensionStatusBar, constants.DEACTIVATE_EXTENSION);
         this.testRunner.dispose();
     }
@@ -123,9 +127,30 @@ export class NodeTDD {
         }
     }
 
+    setCoverage(coverage: string | null) {
+        if (coverage) {
+            Object.assign(this.coverageStatusBar, constants.coverageReport(coverage));
+        }
+    }
+
+    clearCoverage() {
+        this.coverageStatusBar.text = '';
+    }
+
+    hideCoverageStatusBar() {
+        this.coverageStatusBar.hide();
+    }
+
+    showCoverageStatusBar() {
+        if (NodeTDD.getConfig().get<boolean>('showCoverage') && this.coverageStatusBar.text) {
+            this.coverageStatusBar.show();
+        }
+    }
+
     dispose() {
         this.extensionStatusBar.dispose();
         this.buildStatusBar.dispose();
+        this.coverageStatusBar.dispose();
         this.outputChannel.dispose();
         this.testRunner.dispose();
     }

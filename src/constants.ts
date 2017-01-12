@@ -60,6 +60,13 @@ export const constants = {
 
     BUILDING_ANIMATION_SPEED: 300,
 
+    coverageReport: function (coverage: string) {
+        return {
+            text: `$(dashboard) ${coverage}`,
+            tooltip: 'Test coverage'
+        }
+    },
+
     scriptNotFound: function (scriptName: string) {
         return `Node TDD: npm script \`${scriptName}\` was not found`;
     },

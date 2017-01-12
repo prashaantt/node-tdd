@@ -86,6 +86,11 @@
                     "description": "Run tests when matching files are deleted",
                     "type": "boolean",
                     "default": false
+                },
+                "nodeTdd.showCoverage": {
+                    "description": "Show the test coverage if available (experimental)",
+                    "type": "boolean",
+                    "default": false
                 }
             }
         }

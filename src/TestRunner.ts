@@ -91,6 +91,8 @@ export class TestRunner {
         }
 
         NodeTDD.getInstance().clearOutput();
+        NodeTDD.getInstance().clearCoverage();
+        NodeTDD.getInstance().hideCoverageStatusBar();
 
         NodeTDD.getInstance().setBuildStatusBar({
             ...constants.BUILDING_MESSAGE,
@@ -113,7 +115,24 @@ export class TestRunner {
 
         this.process = exec(this.testCommand, { cwd: workspace.rootPath });
 
+        const showCoverage = NodeTDD.getConfig().get<boolean>('showCoverage');
+
         this.process.stdout.on('data', (chunk) => {
+
+            if (showCoverage) {
+                if (chunk.toString().toLowerCase().includes('coverage')) {
+                    const coverageReport = chunk.toString().split('\n')
+                        .find(line => line.includes('%'));
+
+                    if (coverageReport) {
+                        const percentage = coverageReport.match(/(\d*\.?\d*?%)/);
+
+                        if (percentage) {
+                            NodeTDD.getInstance().setCoverage(percentage[0]);
+                        }
+                    }
+                }
+            }
 
             NodeTDD.getInstance().appendOutput(chunk.toString());
         });
@@ -139,6 +158,7 @@ export class TestRunner {
             }
 
             NodeTDD.getInstance().showInfoDialog(code);
+            NodeTDD.getInstance().showCoverageStatusBar();
         });
     }
 }
