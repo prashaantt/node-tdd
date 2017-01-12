@@ -9,7 +9,6 @@ import { constants } from './constants';
 export class TestRunner {
     private fsWatcher: FileSystemWatcher | null;
     private process: ChildProcess | null = null;
-    private running = false;
 
     watch() {
         const buildOnCreate = NodeTDD.getConfig().get<boolean>('buildOnCreate');
@@ -52,7 +51,7 @@ export class TestRunner {
     }
 
     private async run() {
-        if (this.running) {
+        if (this.process) {
             return;
         }
 
@@ -64,7 +63,6 @@ export class TestRunner {
             packageObj = JSON.parse(packageJSON);
         }
         catch (err) {
-
             return;
         }
 
@@ -84,8 +82,6 @@ export class TestRunner {
 
             return;
         }
-
-        this.running = true;
 
         NodeTDD.getInstance().clearOutput();
 
@@ -123,11 +119,9 @@ export class TestRunner {
         this.process.on('close', (code, signal) => {
 
             clearInterval(interval);
-
-            this.running = false;
+            this.process = null;
 
             if (signal === 'SIGTERM') {
-                this.process = null;
                 NodeTDD.getInstance().setBuildStatusBar(constants.BUILD_STOPPED_MESSAGE);
             }
             else if (code === 0) {
