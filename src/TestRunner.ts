@@ -7,7 +7,7 @@ import { NodeTDD } from './NodeTDD';
 import { constants } from './constants';
 
 export class TestRunner {
-    private fsWatcher: FileSystemWatcher | null;
+    private fsWatcher: FileSystemWatcher | null = null;
     private process: ChildProcess | null = null;
 
     watch() {
@@ -36,12 +36,19 @@ export class TestRunner {
         }
     }
 
+    stop() {
+        if (this.process) {
+            this.process.kill();
+        }
+    }
+
     dispose() {
+        this.stop();
+
         if (this.fsWatcher) {
             this.fsWatcher.dispose();
+            this.fsWatcher = null;
         }
-
-        this.fsWatcher = null;
     }
 
     private get testCommand() {
@@ -131,12 +138,6 @@ export class TestRunner {
                 NodeTDD.getInstance().setBuildStatusBar(constants.FAILING_MESSAGE);
             }
         });
-    }
-
-    stop() {
-        if (this.process) {
-            this.process.kill();
-        }
     }
 }
 
