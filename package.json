@@ -52,20 +52,25 @@
         "configuration": {
             "title": "Configuration for Node TDD",
             "properties": {
-                "nodeTdd.glob": {
-                    "description": "The glob pattern for files to watch, relative to the workspace root",
-                    "type": "string",
-                    "default": "{test,src}/**/*.{js,ts,jsx,tsx}"
+                "nodeTdd.activateOnStartup": {
+                    "description": "Activate TDD mode when workspace is opened",
+                    "type": "boolean",
+                    "default": true
+                },
+                "nodeTdd.runOnActivation": {
+                    "description": "Run tests as soon as TDD mode gets (re-)activated",
+                    "type": "boolean",
+                    "default": false
                 },
                 "nodeTdd.testScript": {
                     "description": "The npm script to run (if other than `test`)",
                     "type": "string",
                     "default": "test"
                 },
-                "nodeTdd.runOnActivation": {
-                    "description": "Run tests as soon as the extension gets activated",
-                    "type": "boolean",
-                    "default": false
+                "nodeTdd.glob": {
+                    "description": "The glob pattern for files to watch, relative to the workspace root",
+                    "type": "string",
+                    "default": "{test,src}/**/*.{js,ts,jsx,tsx}"
                 },
                 "nodeTdd.buildOnCreate": {
                     "description": "Run tests when matching files are created",

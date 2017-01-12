@@ -32,16 +32,19 @@ export class NodeTDD {
         this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
         this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
 
-        this.activate();
+        const activateOnStartup = NodeTDD.getConfig().get<boolean>('activateOnStartup');
+
+        if (activateOnStartup) {
+            this.activate();
+        }
+        else {
+            this.deactivate();
+        }
 
         this.extensionStatusBar.show();
     }
 
     activate() {
-        if (this.enabled) {
-            return;
-        }
-
         this.enabled = true;
         this.showBuildStatusBar();
         Object.assign(this.extensionStatusBar, constants.ACTIVATE_EXTENSION);
@@ -49,10 +52,6 @@ export class NodeTDD {
     }
 
     deactivate() {
-        if (!this.enabled) {
-            return;
-        }
-
         this.enabled = false;
         this.hideBuildStatusBar();
         Object.assign(this.extensionStatusBar, constants.DEACTIVATE_EXTENSION);
