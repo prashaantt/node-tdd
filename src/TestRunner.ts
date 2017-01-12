@@ -137,6 +137,8 @@ export class TestRunner {
             else if (code === 1) {
                 NodeTDD.getInstance().setBuildStatusBar(constants.FAILING_MESSAGE);
             }
+
+            NodeTDD.getInstance().showInfoDialog(code);
         });
     }
 }

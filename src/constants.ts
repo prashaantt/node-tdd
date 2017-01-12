@@ -29,12 +29,18 @@ export const constants = {
         command: commands.TOGGLE_OUTPUT
     },
 
+    FAILING_DIALOG_MESSAGE: 'Node TDD: The build failed',
+
     PASSING_MESSAGE: {
         text: '$(check) Passing',
         color: '#55e269',
         tooltip: 'Toggle output',
         command: commands.TOGGLE_OUTPUT
     },
+
+    PASSING_DIALOG_MESSAGE: 'Node TDD: The build passed',
+
+    SHOW_OUTPUT_DIALOG_MESSAGE: 'Show output',
 
     BUILDING_MESSAGE: {
         text: '$(tools) Building',
@@ -50,10 +56,12 @@ export const constants = {
         command: ''
     },
 
+    STOPPED_DIALOG_MESSAGE: 'Node TDD: The build was stopped',
+
     BUILDING_ANIMATION_SPEED: 300,
 
     scriptNotFound: function (scriptName: string) {
-        return `Node TDD: npm script '${scriptName}' not found.`;
+        return `Node TDD: npm script \`${scriptName}\` was not found`;
     },
 
     OPEN_PACKAGE_JSON: 'Open package.json'

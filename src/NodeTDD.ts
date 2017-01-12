@@ -98,6 +98,31 @@ export class NodeTDD {
         this.testRunner.stop();
     }
 
+    async showInfoDialog(code: number | null) {
+        if (!NodeTDD.getConfig().get<boolean>('verbose')) {
+            return;
+        }
+
+        let clicked;
+
+        if (code === 0) {
+            clicked = await window.showInformationMessage(
+                constants.PASSING_DIALOG_MESSAGE, constants.SHOW_OUTPUT_DIALOG_MESSAGE).then();
+        }
+        else if (code === 1) {
+            clicked = await window.showErrorMessage(
+                constants.FAILING_DIALOG_MESSAGE, constants.SHOW_OUTPUT_DIALOG_MESSAGE).then();
+        }
+        else if (code === null) {
+            window.showWarningMessage(constants.STOPPED_DIALOG_MESSAGE);
+        }
+
+        if (clicked && clicked === constants.SHOW_OUTPUT_DIALOG_MESSAGE) {
+            this.outputChannel.show();
+            this.outputShown = true;
+        }
+    }
+
     dispose() {
         this.extensionStatusBar.dispose();
         this.buildStatusBar.dispose();
