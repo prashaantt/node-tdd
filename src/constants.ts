@@ -12,13 +12,13 @@ export const constants = {
 
     ACTIVATE_EXTENSION: {
         text: 'TDD $(rocket)',
-        tooltip: 'TDD mode is active',
+        tooltip: 'Click to deactivate TDD mode',
         command: commands.DEACTIVATE,
     },
 
     DEACTIVATE_EXTENSION: {
         text: 'TDD $(circle-slash)',
-        tooltip: 'TDD mode is inactive',
+        tooltip: 'Click to activate TDD mode',
         command: commands.ACTIVATE,
     },
 

@@ -19,7 +19,7 @@ export class TestRunner {
             const globPath = resolve(workspace.rootPath, NodeTDD.getConfig().get<string>('glob'));
 
             this.fsWatcher = workspace.createFileSystemWatcher(
-                globPath, true, buildOnCreate, buildOnDelete);
+                globPath, !buildOnCreate, false, !buildOnDelete);
         }
 
         this.fsWatcher.onDidChange(debounce(this.run.bind(this)));
