@@ -95,6 +95,10 @@ export class NodeTDD {
         this.outputChannel.append(text);
     }
 
+    stopBuild() {
+        this.testRunner.stop();
+    }
+
     dispose() {
         this.extensionStatusBar.dispose();
         this.buildStatusBar.dispose();

@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import { exec, ChildProcess } from 'child_process';
 import { readFile } from 'fs';
 import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
@@ -8,6 +8,7 @@ import { constants } from './constants';
 
 export class TestRunner {
     private fsWatcher: FileSystemWatcher | null;
+    private process: ChildProcess | null = null;
     private running = false;
 
     watch() {
@@ -88,11 +89,7 @@ export class TestRunner {
 
         NodeTDD.getInstance().clearOutput();
 
-        NodeTDD.getInstance().setBuildStatusBar({
-            text: constants.BUILDING_TEXT,
-            color: constants.BUILDING_TEXT_COLOR,
-            command: ''
-        });
+        NodeTDD.getInstance().setBuildStatusBar(constants.BUILDING_MESSAGE);
         NodeTDD.getInstance().showBuildStatusBar();
 
         let count = 1;
@@ -100,35 +97,45 @@ export class TestRunner {
         const interval = setInterval(() => {
 
             NodeTDD.getInstance().setBuildStatusBar({
-                text: constants.BUILDING_TEXT + '.'.repeat(count++ % 4)
+                text: constants.BUILDING_MESSAGE.text + '.'.repeat(count++ % 4)
             });
         }, constants.BUILDING_ANIMATION_SPEED);
 
-        const process = exec(this.testCommand, { cwd: workspace.rootPath });
+        this.process = exec(this.testCommand, { cwd: workspace.rootPath });
 
-        process.stdout.on('data', (chunk) => {
-
-            NodeTDD.getInstance().appendOutput(chunk.toString());
-        });
-
-        process.stderr.on('data', (chunk) => {
+        this.process.stdout.on('data', (chunk) => {
 
             NodeTDD.getInstance().appendOutput(chunk.toString());
         });
 
-        process.on('close', (code, signal) => {
+        this.process.stderr.on('data', (chunk) => {
+
+            NodeTDD.getInstance().appendOutput(chunk.toString());
+        });
+
+        this.process.on('close', (code, signal) => {
 
             clearInterval(interval);
 
             this.running = false;
 
-            if (code === 0) {
+            if (signal === 'SIGTERM') {
+                this.process = null;
+                NodeTDD.getInstance().setBuildStatusBar(constants.BUILD_STOPPED_MESSAGE);
+            }
+            else if (code === 0) {
                 NodeTDD.getInstance().setBuildStatusBar(constants.PASSING_MESSAGE);
             }
             else if (code === 1) {
                 NodeTDD.getInstance().setBuildStatusBar(constants.FAILING_MESSAGE);
             }
         });
+    }
+
+    stop() {
+        if (this.process) {
+            this.process.kill();
+        }
     }
 }
 

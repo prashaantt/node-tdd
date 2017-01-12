@@ -1,36 +1,55 @@
+export const commands = {
+    ACTIVATE: 'nodeTdd.activate',
+    DEACTIVATE: 'nodeTdd.deactivate',
+    TOGGLE_OUTPUT: 'nodeTdd.toggleOutput',
+    STOP_BUILD: 'nodeTdd.stopBuild',
+}
+
 export const constants = {
     CONFIG_SECTION_KEY: 'nodeTdd',
-    SHOW_OUTPUT_COMMAND: 'nodeTdd.toggleOutput',
+
     OUTPUT_CHANNEL_NAME: 'TDD',
 
     ACTIVATE_EXTENSION: {
         text: 'TDD $(rocket)',
         tooltip: 'TDD mode is active',
-        command: 'nodeTdd.deactivate',
+        command: commands.DEACTIVATE,
     },
 
     DEACTIVATE_EXTENSION: {
         text: 'TDD $(circle-slash)',
         tooltip: 'TDD mode is inactive',
-        command: 'nodeTdd.activate',
+        command: commands.ACTIVATE,
     },
 
     FAILING_MESSAGE: {
         text: '$(alert) Failing',
         color: '#ff7373',
         tooltip: 'Toggle output',
-        command: 'nodeTdd.toggleOutput'
+        command: commands.TOGGLE_OUTPUT
     },
 
     PASSING_MESSAGE: {
         text: '$(check) Passing',
         color: '#55e269',
         tooltip: 'Toggle output',
-        command: 'nodeTdd.toggleOutput'
+        command: commands.TOGGLE_OUTPUT
     },
 
-    BUILDING_TEXT: '$(tools) Building',
-    BUILDING_TEXT_COLOR: 'inherit',
+    BUILDING_MESSAGE: {
+        text: '$(tools) Building',
+        color: 'inherit',
+        tooltip: 'Click to stop current build',
+        command: commands.STOP_BUILD
+    },
+
+    BUILD_STOPPED_MESSAGE: {
+        text: 'Build stopped',
+        color: 'inherit',
+        tooltip: 'Trigger fresh build by hitting save',
+        command: ''
+    },
+
     BUILDING_ANIMATION_SPEED: 300,
 
     scriptNotFound: function (scriptName: string) {

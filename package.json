@@ -43,6 +43,10 @@
             {
                 "command": "nodeTdd.toggleOutput",
                 "title": "Node TDD: Toggle output"
+            },
+            {
+                "command": "nodeTdd.stopBuild",
+                "title": "Node TDD: Stop the current build"
             }
         ],
         "configuration": {
