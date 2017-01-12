@@ -104,22 +104,30 @@ export class TestRunner {
             });
         }, constants.BUILDING_ANIMATION_SPEED);
 
-        exec(this.testCommand, { cwd: workspace.rootPath }, async (error, stdout, stderr) => {
+        const process = exec(this.testCommand, { cwd: workspace.rootPath });
+
+        process.stdout.on('data', (chunk) => {
+
+            NodeTDD.getInstance().appendOutput(chunk.toString());
+        });
+
+        process.stderr.on('data', (chunk) => {
+
+            NodeTDD.getInstance().appendOutput(chunk.toString());
+        });
+
+        process.on('close', (code, signal) => {
 
             clearInterval(interval);
 
             this.running = false;
 
-            if (stderr) {
+            if (code === 0) {
+                NodeTDD.getInstance().setBuildStatusBar(constants.PASSING_MESSAGE);
+            }
+            else if (code === 1) {
                 NodeTDD.getInstance().setBuildStatusBar(constants.FAILING_MESSAGE);
             }
-            else if (stdout) {
-                NodeTDD.getInstance().setBuildStatusBar(constants.PASSING_MESSAGE);
-
-                NodeTDD.getInstance().hideOutput();
-            }
-
-            NodeTDD.getInstance().setOutput(stdout);
         });
     }
 }

@@ -91,7 +91,7 @@ export class NodeTDD {
         this.outputShown = !this.outputShown;
     }
 
-    setOutput(text: string) {
+    appendOutput(text: string) {
         this.outputChannel.append(text);
     }
 
