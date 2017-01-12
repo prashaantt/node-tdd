@@ -91,7 +91,7 @@ export class TestRunner {
         NodeTDD.getInstance().setBuildStatusBar({
             text: constants.BUILDING_TEXT,
             color: constants.BUILDING_TEXT_COLOR,
-            command: null
+            command: ''
         });
         NodeTDD.getInstance().showBuildStatusBar();
 

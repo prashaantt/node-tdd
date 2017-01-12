@@ -59,7 +59,7 @@ export class NodeTDD {
         this.testRunner.dispose();
     }
 
-    setBuildStatusBar(obj: any) {
+    setBuildStatusBar(obj: Partial<StatusBarItem>) {
         Object.assign(this.buildStatusBar, obj);
     }
 
