@@ -10,6 +10,7 @@ export const config = {
     OUTPUT_CHANNEL_NAME: 'TDD',
 
     BUILDING_ANIMATION_SPEED: 300,
+    DEBOUNCE_WAIT_TIME: 400,
     FAILING_COLOUR: '#ff9b9b',
     PASSING_COLOUR: '#55e269',
 

@@ -1,10 +1,11 @@
 import { exec, ChildProcess } from 'child_process';
-import { readFile } from 'fs';
 import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
+import { debounce } from 'lodash';
 
 import { NodeTDD } from './NodeTDD';
 import { messages, config } from './constants';
+import { parseCoverage, readFileAsync } from './utils';
 
 export class TestRunner {
     private fsWatcher: FileSystemWatcher | null = null;
@@ -21,14 +22,14 @@ export class TestRunner {
                 globPath, !buildOnCreate, false, !buildOnDelete);
         }
 
-        this.fsWatcher.onDidChange(debounce(this.run.bind(this)));
+        this.fsWatcher.onDidChange(debounce(this.run.bind(this), config.DEBOUNCE_WAIT_TIME));
 
         if (buildOnCreate) {
-            this.fsWatcher.onDidCreate(debounce(this.run.bind(this)));
+            this.fsWatcher.onDidCreate(debounce(this.run.bind(this), config.DEBOUNCE_WAIT_TIME));
         }
 
         if (buildOnDelete) {
-            this.fsWatcher.onDidDelete(debounce(this.run.bind(this)));
+            this.fsWatcher.onDidDelete(debounce(this.run.bind(this), config.DEBOUNCE_WAIT_TIME));
         }
 
         if (NodeTDD.getConfig<boolean>(config.RUN_ON_ACTIVATION)) {
@@ -151,66 +152,5 @@ export class TestRunner {
             NodeTDD.getInstance().showInfoDialog(code);
             NodeTDD.getInstance().showCoverageStatusBar();
         });
-    }
-}
-
-function debounce(func: Function, wait = 400, immediate?: boolean) {
-    let timeout: NodeJS.Timer | null;
-
-    return function () {
-        const context = this;
-        const args = arguments;
-
-        const later = function () {
-            timeout = null;
-
-            if (!immediate) {
-                func.apply(context, args);
-            }
-        };
-
-        const callNow = immediate && !timeout;
-
-        timeout && clearTimeout(timeout);
-
-        timeout = setTimeout(later, wait);
-
-        if (callNow) {
-            func.apply(context, args);
-        }
-    };
-};
-
-function readFileAsync(path: string) {
-    return new Promise<string>((resolve, reject) => {
-
-        readFile(path, 'utf8', (err, data) => {
-            if (err) {
-                return reject(err);
-            }
-
-            return resolve(data);
-        });
-    });
-}
-
-function parseCoverage(chunk: string | Buffer) {
-    const coverageReports = chunk.toString().split('\n').filter(line => line.includes('%'));
-
-    if (coverageReports.length > 0) {
-        const percentages = coverageReports.map(report => {
-
-            const match = report.match(/(\d*\.?\d*?(?=%))/);
-
-            if (match) {
-                return parseFloat(match[0]);
-            }
-
-            return 0;
-        });
-
-        const average = percentages.reduce((a, b) => a + b) / percentages.length;
-
-        return parseFloat(average.toFixed(2));
     }
 }

@@ -14,11 +14,15 @@
     "categories": [
         "Other"
     ],
+    "dependencies": {
+        "@types/lodash": "^4.14.50",
+        "lodash": "^4.17.4"
+    },
     "devDependencies": {
         "@types/mocha": "^2.2.37",
-        "@types/node": "^6.0.59",
+        "@types/node": "^7.0.0",
         "mocha": "^3.2.0",
-        "typescript": "^2.1.4",
+        "typescript": "^2.1.5",
         "vscode": "^1.0.3"
     },
     "scripts": {
