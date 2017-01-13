@@ -1,5 +1,4 @@
 import * as assert from 'assert';
-import { exec, ChildProcess } from 'child_process';
 
 import { parseCoverage, readFileAsync } from '../src/utils';
 
