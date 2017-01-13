@@ -33,23 +33,25 @@ export class NodeTDD implements Disposable {
     }
 
     private constructor() {
-        this.outputChannel = window.createOutputChannel(config.OUTPUT_CHANNEL_NAME);
-        this.testRunner = new TestRunner();
+        if (workspace.rootPath) {
+            this.outputChannel = window.createOutputChannel(config.OUTPUT_CHANNEL_NAME);
+            this.testRunner = new TestRunner();
 
-        this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
-        this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
-        this.coverageStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 0);
+            this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
+            this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
+            this.coverageStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 0);
 
-        const activateOnStartup = NodeTDD.getConfig<boolean>(config.ACTIVATE_ON_STARTUP);
+            const activateOnStartup = NodeTDD.getConfig<boolean>(config.ACTIVATE_ON_STARTUP);
 
-        if (activateOnStartup) {
-            this.activate();
+            if (activateOnStartup) {
+                this.activate();
+            }
+            else {
+                this.deactivate();
+            }
+
+            this.extensionStatusBar.show();
         }
-        else {
-            this.deactivate();
-        }
-
-        this.extensionStatusBar.show();
     }
 
     activate() {
