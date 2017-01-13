@@ -121,16 +121,7 @@ export class TestRunner {
 
             if (showCoverage) {
                 if (chunk.toString().toLowerCase().includes('coverage')) {
-                    const coverageReport = chunk.toString().split('\n')
-                        .find(line => line.includes('%'));
-
-                    if (coverageReport) {
-                        const percentage = coverageReport.match(/(\d*\.?\d*?%)/);
-
-                        if (percentage) {
-                            NodeTDD.getInstance().setCoverage(percentage[0]);
-                        }
-                    }
+                    NodeTDD.getInstance().setCoverage(parseCoverage(chunk));
                 }
             }
 
@@ -201,4 +192,25 @@ function readFileAsync(path: string) {
             return resolve(data);
         });
     });
+}
+
+function parseCoverage(chunk: string | Buffer) {
+    const coverageReports = chunk.toString().split('\n').filter(line => line.includes('%'));
+
+    if (coverageReports.length > 0) {
+        const percentages = coverageReports.map(report => {
+
+            const match = report.match(/(\d*\.?\d*?(?=%))/);
+
+            if (match) {
+                return parseFloat(match[0]);
+            }
+
+            return 0;
+        });
+
+        const average = percentages.reduce((a, b) => a + b) / percentages.length;
+
+        return parseFloat(average.toFixed(2));
+    }
 }

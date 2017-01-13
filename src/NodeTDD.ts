@@ -1,11 +1,11 @@
-import { StatusBarItem, window, workspace, OutputChannel, StatusBarAlignment } from 'vscode';
+import { StatusBarItem, window, workspace, OutputChannel, StatusBarAlignment, Disposable } from 'vscode';
 
 import { TestRunner } from './TestRunner';
 import { constants } from './constants';
 
 let instance: NodeTDD;
 
-export class NodeTDD {
+export class NodeTDD implements Disposable {
     private enabled = false;
     private outputShown = false;
     private extensionStatusBar: StatusBarItem;
@@ -30,9 +30,9 @@ export class NodeTDD {
         this.outputChannel = window.createOutputChannel(constants.OUTPUT_CHANNEL_NAME);
         this.testRunner = new TestRunner();
 
-        this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 3);
-        this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
-        this.coverageStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
+        this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
+        this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
+        this.coverageStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 0);
 
         const activateOnStartup = NodeTDD.getConfig().get<boolean>('activateOnStartup');
 
@@ -127,7 +127,7 @@ export class NodeTDD {
         }
     }
 
-    setCoverage(coverage: string | null) {
+    setCoverage(coverage?: number) {
         if (coverage) {
             Object.assign(this.coverageStatusBar, constants.coverageReport(coverage));
         }

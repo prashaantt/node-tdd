@@ -60,9 +60,9 @@ export const constants = {
 
     BUILDING_ANIMATION_SPEED: 300,
 
-    coverageReport: function (coverage: string) {
+    coverageReport: function (coverage: number) {
         return {
-            text: `$(dashboard) ${coverage}`,
+            text: `$(dashboard) ${coverage}%`,
             tooltip: 'Test coverage'
         }
     },
