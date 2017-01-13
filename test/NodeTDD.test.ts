@@ -3,7 +3,7 @@ import * as assert from 'assert';
 import { NodeTDD } from '../src/NodeTDD';
 import { config } from '../src/constants';
 
-suite("The extension manager NodeTDD", () => {
+suite('The extension manager NodeTDD', () => {
 
     test('correctly returns a singleton instance', () => {
         assert.equal(NodeTDD.getInstance(), NodeTDD.getInstance());

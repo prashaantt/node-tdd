@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 import { parseCoverage, readFileAsync } from '../src/utils';
 
-suite("parseCoverage", () => {
+suite('parseCoverage', () => {
 
     test('correctly returns expected coverage', () => {
 
@@ -26,5 +26,5 @@ suite('readFileAsync', () => {
 
         const contents = await readFileAsync(resolve(__dirname, '../../test/fixtures/test.txt'));
         assert.equal(contents, 'Hello, world!\n');
-    })
+    });
 });
