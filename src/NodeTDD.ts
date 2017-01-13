@@ -1,9 +1,14 @@
 import { StatusBarItem, window, workspace, OutputChannel, StatusBarAlignment, Disposable } from 'vscode';
 
 import { TestRunner } from './TestRunner';
-import { constants, config } from './constants';
+import { messages, config } from './constants';
 
 let instance: NodeTDD;
+
+interface Config<T> {
+    name: string;
+    defaultValue: T;
+}
 
 export class NodeTDD implements Disposable {
     private enabled = false;
@@ -22,12 +27,13 @@ export class NodeTDD implements Disposable {
         return instance;
     }
 
-    static getConfig<T>(config: string) {
-        return workspace.getConfiguration(constants.CONFIG_SECTION_KEY).get<T>(config);
+    static getConfig<T>(configSection: Config<T>) {
+        return workspace.getConfiguration(config.CONFIG_SECTION_KEY)
+            .get<T>(configSection.name, configSection.defaultValue);
     }
 
     private constructor() {
-        this.outputChannel = window.createOutputChannel(constants.OUTPUT_CHANNEL_NAME);
+        this.outputChannel = window.createOutputChannel(config.OUTPUT_CHANNEL_NAME);
         this.testRunner = new TestRunner();
 
         this.extensionStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 2);
@@ -49,7 +55,7 @@ export class NodeTDD implements Disposable {
     activate() {
         this.enabled = true;
         this.showBuildStatusBar();
-        Object.assign(this.extensionStatusBar, constants.ACTIVATE_EXTENSION);
+        Object.assign(this.extensionStatusBar, messages.ACTIVATE_EXTENSION);
         this.testRunner.watch();
         this.showCoverageStatusBar();
     }
@@ -58,7 +64,7 @@ export class NodeTDD implements Disposable {
         this.enabled = false;
         this.hideBuildStatusBar();
         this.hideCoverageStatusBar();
-        Object.assign(this.extensionStatusBar, constants.DEACTIVATE_EXTENSION);
+        Object.assign(this.extensionStatusBar, messages.DEACTIVATE_EXTENSION);
         this.testRunner.dispose();
     }
 
@@ -111,17 +117,17 @@ export class NodeTDD implements Disposable {
 
         if (code === 0) {
             clicked = await window.showInformationMessage(
-                constants.PASSING_DIALOG_MESSAGE, constants.SHOW_OUTPUT_DIALOG_MESSAGE).then();
+                messages.PASSING_DIALOG, messages.SHOW_OUTPUT_DIALOG).then();
         }
         else if (code === 1) {
             clicked = await window.showErrorMessage(
-                constants.FAILING_DIALOG_MESSAGE, constants.SHOW_OUTPUT_DIALOG_MESSAGE).then();
+                messages.FAILING_DIALOG, messages.SHOW_OUTPUT_DIALOG).then();
         }
         else if (code === null) {
-            window.showWarningMessage(constants.STOPPED_DIALOG_MESSAGE);
+            window.showWarningMessage(messages.STOPPED_DIALOG);
         }
 
-        if (clicked && clicked === constants.SHOW_OUTPUT_DIALOG_MESSAGE) {
+        if (clicked && clicked === messages.SHOW_OUTPUT_DIALOG) {
             this.outputChannel.show();
             this.outputShown = true;
         }
@@ -130,7 +136,7 @@ export class NodeTDD implements Disposable {
     setCoverage(coverage?: number) {
         if (coverage) {
             const threshold = NodeTDD.getConfig<number | null>(config.COVERAGE_THRESHOLD);
-            Object.assign(this.coverageStatusBar, constants.coverageMessage(coverage, threshold));
+            Object.assign(this.coverageStatusBar, messages.coverage(coverage, threshold));
         }
     }
 

@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
 
 import { NodeTDD } from './NodeTDD';
-import { constants, config } from './constants';
+import { messages, config } from './constants';
 
 export class TestRunner {
     private fsWatcher: FileSystemWatcher | null = null;
@@ -77,9 +77,9 @@ export class TestRunner {
 
         if (!packageObj.scripts[scriptName]) {
             const selection = await window.showErrorMessage(
-                constants.scriptNotFoundMessage(scriptName), constants.OPEN_PACKAGE_JSON).then();
+                messages.scriptNotFound(scriptName), messages.OPEN_PACKAGE_JSON).then();
 
-            if (selection === constants.OPEN_PACKAGE_JSON) {
+            if (selection === messages.OPEN_PACKAGE_JSON) {
                 workspace.openTextDocument(workspace.rootPath + '/package.json')
                     .then(textDocument => {
 
@@ -95,8 +95,8 @@ export class TestRunner {
         NodeTDD.getInstance().hideCoverageStatusBar();
 
         NodeTDD.getInstance().setBuildStatusBar({
-            ...constants.BUILDING_MESSAGE,
-            text: constants.BUILDING_MESSAGE.text + ' '.repeat(4)
+            ...messages.BUILDING,
+            text: messages.BUILDING.text + ' '.repeat(4)
         });
 
         NodeTDD.getInstance().showBuildStatusBar();
@@ -109,9 +109,9 @@ export class TestRunner {
             const spaces = 4 - dots;
 
             NodeTDD.getInstance().setBuildStatusBar({
-                text: constants.BUILDING_MESSAGE.text + '.'.repeat(dots) + ' '.repeat(spaces)
+                text: messages.BUILDING.text + '.'.repeat(dots) + ' '.repeat(spaces)
             });
-        }, constants.BUILDING_ANIMATION_SPEED);
+        }, config.BUILDING_ANIMATION_SPEED);
 
         this.process = exec(this.testCommand, { cwd: workspace.rootPath });
 
@@ -139,13 +139,13 @@ export class TestRunner {
             this.process = null;
 
             if (signal === 'SIGTERM') {
-                NodeTDD.getInstance().setBuildStatusBar(constants.BUILD_STOPPED_MESSAGE);
+                NodeTDD.getInstance().setBuildStatusBar(messages.BUILD_STOPPED);
             }
             else if (code === 0) {
-                NodeTDD.getInstance().setBuildStatusBar(constants.PASSING_MESSAGE);
+                NodeTDD.getInstance().setBuildStatusBar(messages.PASSING);
             }
             else if (code === 1) {
-                NodeTDD.getInstance().setBuildStatusBar(constants.FAILING_MESSAGE);
+                NodeTDD.getInstance().setBuildStatusBar(messages.FAILING);
             }
 
             NodeTDD.getInstance().showInfoDialog(code);

@@ -5,26 +5,26 @@ export const commands = {
     STOP_BUILD: 'nodeTdd.stopBuild',
 }
 
-const FAILING_COLOUR = '#ff9b9b';
-const PASSING_COLOUR = '#55e269';
-
 export const config = {
-    ACTIVATE_ON_STARTUP: 'activateOnStartup',
-    RUN_ON_ACTIVATION: 'runOnActivation',
-    VERBOSE: 'verbose',
-    TEST_SCRIPT: 'testScript',
-    GLOB: 'glob',
-    BUILD_ON_CREATE: 'buildOnCreate',
-    BUILD_ON_DELETE: 'buildOnDelete',
-    SHOW_COVERAGE: 'showCoverage',
-    COVERAGE_THRESHOLD: 'coverageThreshold'
-}
-
-export const constants = {
     CONFIG_SECTION_KEY: 'nodeTdd',
-
     OUTPUT_CHANNEL_NAME: 'TDD',
 
+    BUILDING_ANIMATION_SPEED: 300,
+    FAILING_COLOUR: '#ff9b9b',
+    PASSING_COLOUR: '#55e269',
+
+    ACTIVATE_ON_STARTUP: { name: 'activateOnStartup', defaultValue: true },
+    RUN_ON_ACTIVATION: { name: 'runOnActivation', defaultValue: false },
+    VERBOSE: { name: 'verbose', defaultValue: false },
+    TEST_SCRIPT: { name: 'testScript', defaultValue: 'test' },
+    GLOB: { name: 'glob', defaultValue: '{test,src}/**/*.{js,ts,jsx,tsx}' },
+    BUILD_ON_CREATE: { name: 'buildOnCreate', defaultValue: false },
+    BUILD_ON_DELETE: { name: 'buildOnDelete', defaultValue: false },
+    SHOW_COVERAGE: { name: 'showCoverage', defaultValue: false },
+    COVERAGE_THRESHOLD: { name: 'coverageThreshold', defaultValue: null }
+}
+
+export const messages = {
     ACTIVATE_EXTENSION: {
         text: 'TDD $(rocket)',
         tooltip: 'Click to deactivate TDD mode',
@@ -37,55 +37,54 @@ export const constants = {
         command: commands.ACTIVATE,
     },
 
-    FAILING_MESSAGE: {
+    FAILING: {
         text: '$(alert) Failing',
-        color: FAILING_COLOUR,
+        color: config.FAILING_COLOUR,
         tooltip: 'Toggle output',
         command: commands.TOGGLE_OUTPUT
     },
 
-    FAILING_DIALOG_MESSAGE: 'Node TDD: The build failed',
+    FAILING_DIALOG: 'Node TDD: The build failed',
 
-    PASSING_MESSAGE: {
+    PASSING: {
         text: '$(check) Passing',
-        color: PASSING_COLOUR,
+        color: config.PASSING_COLOUR,
         tooltip: 'Toggle output',
         command: commands.TOGGLE_OUTPUT
     },
 
-    PASSING_DIALOG_MESSAGE: 'Node TDD: The build passed',
+    PASSING_DIALOG: 'Node TDD: The build passed',
 
-    SHOW_OUTPUT_DIALOG_MESSAGE: 'Show output',
+    SHOW_OUTPUT_DIALOG: 'Show output',
 
-    BUILDING_MESSAGE: {
+    BUILDING: {
         text: '$(tools) Building',
         color: 'inherit',
         tooltip: 'Click to stop current build',
         command: commands.STOP_BUILD
     },
 
-    BUILD_STOPPED_MESSAGE: {
+    BUILD_STOPPED: {
         text: 'Build stopped',
         color: 'inherit',
         tooltip: '',
         command: ''
     },
 
-    STOPPED_DIALOG_MESSAGE: 'Node TDD: The build was stopped',
+    STOPPED_DIALOG: 'Node TDD: The build was stopped',
 
-    BUILDING_ANIMATION_SPEED: 300,
+    OPEN_PACKAGE_JSON: 'Open package.json',
 
-    coverageMessage: function (coverage: number, threshold: number | null) {
+    coverage: function (coverage: number, threshold: number | null) {
         return {
             text: `$(dashboard) ${coverage}%`,
             tooltip: 'Test coverage',
-            color: threshold ? (coverage >= threshold ? PASSING_COLOUR : FAILING_COLOUR) : 'inherit'
+            color: threshold ? (coverage >= threshold ?
+                config.PASSING_COLOUR : config.FAILING_COLOUR) : 'inherit'
         }
     },
 
-    scriptNotFoundMessage: function (scriptName: string) {
+    scriptNotFound: function (scriptName: string) {
         return `Node TDD: npm script \`${scriptName}\` was not found`;
-    },
-
-    OPEN_PACKAGE_JSON: 'Open package.json'
+    }
 }
