@@ -5,6 +5,17 @@ export const commands = {
     STOP_BUILD: 'nodeTdd.stopBuild',
 }
 
+export const config = {
+    ACTIVATE_ON_STARTUP: 'activateOnStartup',
+    RUN_ON_ACTIVATION: 'runOnActivation',
+    VERBOSE: 'verbose',
+    TEST_SCRIPT: 'testScript',
+    GLOB: 'glob',
+    BUILD_ON_CREATE: 'buildOnCreate',
+    BUILD_ON_DELETE: 'buildOnDelete',
+    SHOW_COVERAGE: 'showCoverage'
+}
+
 export const constants = {
     CONFIG_SECTION_KEY: 'nodeTdd',
 

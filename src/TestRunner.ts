@@ -4,18 +4,18 @@ import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
 
 import { NodeTDD } from './NodeTDD';
-import { constants } from './constants';
+import { constants, config } from './constants';
 
 export class TestRunner {
     private fsWatcher: FileSystemWatcher | null = null;
     private process: ChildProcess | null = null;
 
     watch() {
-        const buildOnCreate = NodeTDD.getConfig().get<boolean>('buildOnCreate');
-        const buildOnDelete = NodeTDD.getConfig().get<boolean>('buildOnDelete');
+        const buildOnCreate = NodeTDD.getConfig<boolean>(config.BUILD_ON_CREATE);
+        const buildOnDelete = NodeTDD.getConfig<boolean>(config.BUILD_ON_DELETE);
 
         if (!this.fsWatcher) {
-            const globPath = resolve(workspace.rootPath, NodeTDD.getConfig().get<string>('glob'));
+            const globPath = resolve(workspace.rootPath, NodeTDD.getConfig<string>(config.GLOB));
 
             this.fsWatcher = workspace.createFileSystemWatcher(
                 globPath, !buildOnCreate, false, !buildOnDelete);
@@ -31,7 +31,7 @@ export class TestRunner {
             this.fsWatcher.onDidDelete(debounce(this.run.bind(this)));
         }
 
-        if (NodeTDD.getConfig().get<boolean>('runOnActivation')) {
+        if (NodeTDD.getConfig<boolean>(config.RUN_ON_ACTIVATION)) {
             this.run();
         }
     }
@@ -52,7 +52,7 @@ export class TestRunner {
     }
 
     private get testCommand() {
-        const scriptName = NodeTDD.getConfig().get<string>('testScript').trim();
+        const scriptName = NodeTDD.getConfig<string>(config.TEST_SCRIPT).trim();
 
         return scriptName === 'test' ? 'npm test' : `npm run ${scriptName}`;
     }
@@ -73,7 +73,7 @@ export class TestRunner {
             return;
         }
 
-        const scriptName = NodeTDD.getConfig().get<string>('testScript').trim();
+        const scriptName = NodeTDD.getConfig<string>(config.TEST_SCRIPT).trim();
 
         if (!packageObj.scripts[scriptName]) {
             const selection = await window.showErrorMessage(
@@ -115,7 +115,7 @@ export class TestRunner {
 
         this.process = exec(this.testCommand, { cwd: workspace.rootPath });
 
-        const showCoverage = NodeTDD.getConfig().get<boolean>('showCoverage');
+        const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
 
         this.process.stdout.on('data', (chunk) => {
 

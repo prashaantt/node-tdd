@@ -1,7 +1,7 @@
 import { StatusBarItem, window, workspace, OutputChannel, StatusBarAlignment, Disposable } from 'vscode';
 
 import { TestRunner } from './TestRunner';
-import { constants } from './constants';
+import { constants, config } from './constants';
 
 let instance: NodeTDD;
 
@@ -22,8 +22,8 @@ export class NodeTDD implements Disposable {
         return instance;
     }
 
-    static getConfig() {
-        return workspace.getConfiguration(constants.CONFIG_SECTION_KEY);
+    static getConfig<T>(config: string) {
+        return workspace.getConfiguration(constants.CONFIG_SECTION_KEY).get<T>(config);
     }
 
     private constructor() {
@@ -34,7 +34,7 @@ export class NodeTDD implements Disposable {
         this.buildStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 1);
         this.coverageStatusBar = window.createStatusBarItem(StatusBarAlignment.Left, 0);
 
-        const activateOnStartup = NodeTDD.getConfig().get<boolean>('activateOnStartup');
+        const activateOnStartup = NodeTDD.getConfig<boolean>(config.ACTIVATE_ON_STARTUP);
 
         if (activateOnStartup) {
             this.activate();
@@ -103,7 +103,7 @@ export class NodeTDD implements Disposable {
     }
 
     async showInfoDialog(code: number | null) {
-        if (!NodeTDD.getConfig().get<boolean>('verbose')) {
+        if (!NodeTDD.getConfig<boolean>(config.VERBOSE)) {
             return;
         }
 
@@ -142,7 +142,7 @@ export class NodeTDD implements Disposable {
     }
 
     showCoverageStatusBar() {
-        if (NodeTDD.getConfig().get<boolean>('showCoverage') && this.coverageStatusBar.text) {
+        if (NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE) && this.coverageStatusBar.text) {
             this.coverageStatusBar.show();
         }
     }
