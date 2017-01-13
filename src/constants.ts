@@ -5,6 +5,9 @@ export const commands = {
     STOP_BUILD: 'nodeTdd.stopBuild',
 }
 
+const FAILING_COLOUR = '#ff9b9b';
+const PASSING_COLOUR = '#55e269';
+
 export const config = {
     ACTIVATE_ON_STARTUP: 'activateOnStartup',
     RUN_ON_ACTIVATION: 'runOnActivation',
@@ -13,7 +16,8 @@ export const config = {
     GLOB: 'glob',
     BUILD_ON_CREATE: 'buildOnCreate',
     BUILD_ON_DELETE: 'buildOnDelete',
-    SHOW_COVERAGE: 'showCoverage'
+    SHOW_COVERAGE: 'showCoverage',
+    COVERAGE_THRESHOLD: 'coverageThreshold'
 }
 
 export const constants = {
@@ -35,7 +39,7 @@ export const constants = {
 
     FAILING_MESSAGE: {
         text: '$(alert) Failing',
-        color: '#ff7373',
+        color: FAILING_COLOUR,
         tooltip: 'Toggle output',
         command: commands.TOGGLE_OUTPUT
     },
@@ -44,7 +48,7 @@ export const constants = {
 
     PASSING_MESSAGE: {
         text: '$(check) Passing',
-        color: '#55e269',
+        color: PASSING_COLOUR,
         tooltip: 'Toggle output',
         command: commands.TOGGLE_OUTPUT
     },
@@ -71,14 +75,15 @@ export const constants = {
 
     BUILDING_ANIMATION_SPEED: 300,
 
-    coverageReport: function (coverage: number) {
+    coverageMessage: function (coverage: number, threshold: number | null) {
         return {
             text: `$(dashboard) ${coverage}%`,
-            tooltip: 'Test coverage'
+            tooltip: 'Test coverage',
+            color: threshold ? (coverage >= threshold ? PASSING_COLOUR : FAILING_COLOUR) : 'inherit'
         }
     },
 
-    scriptNotFound: function (scriptName: string) {
+    scriptNotFoundMessage: function (scriptName: string) {
         return `Node TDD: npm script \`${scriptName}\` was not found`;
     },
 

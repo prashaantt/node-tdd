@@ -77,7 +77,7 @@ export class TestRunner {
 
         if (!packageObj.scripts[scriptName]) {
             const selection = await window.showErrorMessage(
-                constants.scriptNotFound(scriptName), constants.OPEN_PACKAGE_JSON).then();
+                constants.scriptNotFoundMessage(scriptName), constants.OPEN_PACKAGE_JSON).then();
 
             if (selection === constants.OPEN_PACKAGE_JSON) {
                 workspace.openTextDocument(workspace.rootPath + '/package.json')

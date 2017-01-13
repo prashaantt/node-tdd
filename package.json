@@ -91,6 +91,16 @@
                     "description": "Show the test coverage if available (experimental)",
                     "type": "boolean",
                     "default": false
+                },
+                "nodeTdd.coverageThreshold": {
+                    "description": "The coverage threshold (if applicable)",
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "default": null,
+                    "minimum": 0,
+                    "maximum": 100
                 }
             }
         }

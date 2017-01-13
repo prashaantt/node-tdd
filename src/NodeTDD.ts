@@ -129,7 +129,8 @@ export class NodeTDD implements Disposable {
 
     setCoverage(coverage?: number) {
         if (coverage) {
-            Object.assign(this.coverageStatusBar, constants.coverageReport(coverage));
+            const threshold = NodeTDD.getConfig<number | null>(config.COVERAGE_THRESHOLD);
+            Object.assign(this.coverageStatusBar, constants.coverageMessage(coverage, threshold));
         }
     }
 
