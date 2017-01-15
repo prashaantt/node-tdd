@@ -5,7 +5,7 @@ export function readFileAsync(path: string) {
 
         readFile(path, 'utf8', (err, data) => {
             if (err) {
-                return reject(err);
+                return reject(err.message);
             }
 
             return resolve(data);

@@ -1,4 +1,4 @@
-import { StatusBarItem, window, workspace, OutputChannel, StatusBarAlignment, Disposable } from 'vscode';
+import { StatusBarItem, window, workspace, OutputChannel, StatusBarAlignment } from 'vscode';
 
 import { TestRunner } from './TestRunner';
 import { messages, config } from './constants';
@@ -10,7 +10,7 @@ interface Config<T> {
     defaultValue: T;
 }
 
-export class NodeTDD implements Disposable {
+export class NodeTDD {
     private enabled = false;
     private outputShown = false;
     private extensionStatusBar: StatusBarItem;
