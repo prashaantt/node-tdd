@@ -76,6 +76,10 @@ export const messages = {
 
     OPEN_PACKAGE_JSON: 'Open package.json',
 
+    PACKAGE_JSON_NOT_FOUND: 'Node TDD: package.json was not found',
+
+    DEACTIVATE_DIALOG: 'Deactivate TDD mode',
+
     coverage: function (coverage: number, threshold: number | null) {
         return {
             text: `$(dashboard) ${coverage}%`,
@@ -86,6 +90,6 @@ export const messages = {
     },
 
     scriptNotFound: function (scriptName: string) {
-        return `Node TDD: npm script \`${scriptName}\` was not found`;
+        return `Node TDD: The npm script \`${scriptName}\` was not found`;
     }
 };

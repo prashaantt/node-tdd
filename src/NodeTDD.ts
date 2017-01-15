@@ -119,11 +119,11 @@ export class NodeTDD implements Disposable {
 
         if (code === 0) {
             clicked = await window.showInformationMessage(
-                messages.PASSING_DIALOG, messages.SHOW_OUTPUT_DIALOG).then();
+                messages.PASSING_DIALOG, messages.SHOW_OUTPUT_DIALOG);
         }
         else if (code === 1) {
             clicked = await window.showErrorMessage(
-                messages.FAILING_DIALOG, messages.SHOW_OUTPUT_DIALOG).then();
+                messages.FAILING_DIALOG, messages.SHOW_OUTPUT_DIALOG);
         }
         else if (code === null) {
             window.showWarningMessage(messages.STOPPED_DIALOG);
