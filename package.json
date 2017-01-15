@@ -1,15 +1,25 @@
 {
     "name": "node-tdd",
-    "version": "0.1.0",
     "displayName": "Node TDD",
-    "description": "A simple TDD extension for Node.",
+    "version": "0.1.0",
+    "description": "A Visual Studio Code extension to ease test-driven development in Node/JavaScript",
     "main": "./out/src/extension",
-    "repository": "https://github.com/prashaantt/node-tdd.git",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/prashaantt/node-tdd.git"
+    },
+    "bugs": {
+        "url": "https://github.com/prashaantt/node-tdd/issues"
+    },
     "author": "Prashant Tiwari <prashaantt@gmail.com>",
     "publisher": "prashaantt",
     "license": "MIT",
     "engines": {
         "vscode": "^1.8.0"
+    },
+    "icon": "images/emojione-rocket.png",
+    "galleryBanner": {
+        "color": "#607d8b"
     },
     "categories": [
         "Other"
@@ -74,7 +84,7 @@
                     "default": false
                 },
                 "nodeTdd.testScript": {
-                    "description": "The npm script to run (if other than `test`)",
+                    "description": "The npm script to run tests",
                     "type": "string",
                     "default": "test"
                 },
@@ -94,12 +104,12 @@
                     "default": false
                 },
                 "nodeTdd.showCoverage": {
-                    "description": "Show the test coverage if available (experimental)",
+                    "description": "Show the test coverage if reported (experimental)",
                     "type": "boolean",
                     "default": false
                 },
                 "nodeTdd.coverageThreshold": {
-                    "description": "The coverage threshold (if applicable)",
+                    "description": "The coverage threshold",
                     "type": [
                         "number",
                         "null"
