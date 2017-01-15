@@ -71,6 +71,13 @@ export class TestRunner {
             packageObj = JSON.parse(packageJSON);
         }
         catch (err) {
+            const selection = await window.showErrorMessage(
+                messages.PACKAGE_JSON_NOT_FOUND, messages.DEACTIVATE_DIALOG);
+
+            if (selection === messages.DEACTIVATE_DIALOG) {
+                NodeTDD.getInstance().deactivate();
+            }
+
             return;
         }
 
@@ -78,7 +85,7 @@ export class TestRunner {
 
         if (!packageObj.scripts[scriptName]) {
             const selection = await window.showErrorMessage(
-                messages.scriptNotFound(scriptName), messages.OPEN_PACKAGE_JSON).then();
+                messages.scriptNotFound(scriptName), messages.OPEN_PACKAGE_JSON);
 
             if (selection === messages.OPEN_PACKAGE_JSON) {
                 workspace.openTextDocument(workspace.rootPath + '/package.json')
@@ -102,9 +109,13 @@ export class TestRunner {
 
         NodeTDD.getInstance().showBuildStatusBar();
 
+        this.execProcess(clearInterval.bind(null, this.animateBuilding()));
+    }
+
+    private animateBuilding() {
         let count = 1;
 
-        const interval = setInterval(() => {
+        return setInterval(() => {
 
             const dots = count++ % 4;
             const spaces = 4 - dots;
@@ -113,7 +124,9 @@ export class TestRunner {
                 text: messages.BUILDING.text + '.'.repeat(dots) + ' '.repeat(spaces)
             });
         }, config.BUILDING_ANIMATION_SPEED);
+    }
 
+    private execProcess(callback: Function) {
         this.process = exec(this.testCommand, { cwd: workspace.rootPath });
 
         const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
@@ -136,7 +149,7 @@ export class TestRunner {
 
         this.process.on('close', (code, signal) => {
 
-            clearInterval(interval);
+            callback();
             this.process = null;
 
             if (signal === 'SIGTERM') {

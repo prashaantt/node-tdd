@@ -1,65 +1,52 @@
-# node-tdd README
+# node-tdd
 
-This is the README for your extension "node-tdd". After writing up a brief description, we recommend including the following sections.
+> A [Visual Studio Code](http://code.visualstudio.com/) extension to ease [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) in Node/JavaScript
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+![feature X](images/node-tdd.gif)
 
-For example if there is an image subfolder under your extension project workspace:
+- Activates when a workspace containing `package.json` is opened.
+- Triggers an automatic test build whenever source files are updated.
+- Shows a colour-coded build summary.
+- Shows the average test coverage (experimental).
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
+## Settings
 
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+| Setting                     | Type           | Default                           | Description                                                     |
+| --------------------------- | -------------- | --------------------------------- | --------------------------------------------------------------- |
+| `nodeTdd.activateOnStartup` | boolean        | `true`                            | Activate TDD mode when workspace is opened                      |
+| `nodeTdd.testScript`        | string         | `test`                            | The npm script to run tests                                     |
+| `nodeTdd.glob`              | string         | `{test,src}/**/*.{js,ts,jsx,tsx}` | Glob pattern for files to watch, relative to the workspace root |
+| `nodeTdd.runOnActivation`   | boolean        | `false`                           | Run tests as soon as TDD mode gets (re-)activated               |
+| `nodeTdd.verbose`           | boolean        | `false`                           | Show (more intrusive) build status dialogs                      |
+| `nodeTdd.buildOnCreate`     | boolean        | `false`                           | Run tests when matching files are created                       |
+| `nodeTdd.buildOnDelete`     | boolean        | `false`                           | Run tests when matching files are deleted                       |
+| `nodeTdd.showCoverage`      | boolean        | `false`                           | Show the average test coverage if reported (experimental)       |
+| `nodeTdd.coverageThreshold` | number \| null | `null`                            | The threshold percentage, used to colour-code the coverage      |
 
-## Known Issues
+## Commands
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+The following commands are available from the commands menu as well as convenience status bar buttons:
 
-## Release Notes
+| Command        | Action                                |
+| -------------- | ------------------------------------- |
+| `activate`     | Activate `node-tdd` in a workspace    |
+| `deactivate`   | De-activate `node-tdd` in a workspace |
+| `toggleOutput` | Toggle detailed test results output   |
+| `stopBuild`    | Stop a running build                  |
 
-Users appreciate release notes as you update your extension.
+## Limitations and known issues
 
-### 1.0.0
+- The extension doesn't get activated if `package.json` was not initially present when the workspace was opened; a window restart will be required to detect a change.
+- It doesn't work with watch mode/incremental test builds. The build process used for running tests must exit on each execution, otherwise it will never report the status.
+- `showCoverage` is an experimental setting, only tested with [Lab](https://github.com/hapijs/lab) and [Istanbul](https://github.com/gotwarlost/istanbul). Disable it if its output looks funny.
+- Ironically for a TDD extension, it has very few tests of its own because I don't yet know how to test UI elements in VS Code. :/
 
-Initial release of ...
+Suggestions and PRs are welcome.
 
-### 1.0.1
+## License
 
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+MIT License.

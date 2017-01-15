@@ -3,7 +3,7 @@ export const commands = {
     DEACTIVATE: 'nodeTdd.deactivate',
     TOGGLE_OUTPUT: 'nodeTdd.toggleOutput',
     STOP_BUILD: 'nodeTdd.stopBuild',
-}
+};
 
 export const config = {
     CONFIG_SECTION_KEY: 'nodeTdd',
@@ -23,7 +23,7 @@ export const config = {
     BUILD_ON_DELETE: { name: 'buildOnDelete', defaultValue: false },
     SHOW_COVERAGE: { name: 'showCoverage', defaultValue: false },
     COVERAGE_THRESHOLD: { name: 'coverageThreshold', defaultValue: null }
-}
+};
 
 export const messages = {
     ACTIVATE_EXTENSION: {
@@ -76,16 +76,20 @@ export const messages = {
 
     OPEN_PACKAGE_JSON: 'Open package.json',
 
+    PACKAGE_JSON_NOT_FOUND: 'Node TDD: package.json was not found',
+
+    DEACTIVATE_DIALOG: 'Deactivate TDD mode',
+
     coverage: function (coverage: number, threshold: number | null) {
         return {
             text: `$(dashboard) ${coverage}%`,
             tooltip: 'Test coverage',
             color: threshold ? (coverage >= threshold ?
                 config.PASSING_COLOUR : config.FAILING_COLOUR) : 'inherit'
-        }
+        };
     },
 
     scriptNotFound: function (scriptName: string) {
-        return `Node TDD: npm script \`${scriptName}\` was not found`;
+        return `Node TDD: The npm script \`${scriptName}\` was not found`;
     }
-}
+};

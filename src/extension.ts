@@ -26,7 +26,8 @@ export function activate(context: Code.ExtensionContext) {
         nodeTdd.stopBuild();
     });
 
-    context.subscriptions.push(activateCommand, deactivateCommand, toggleOutputCommand, nodeTdd);
+    context.subscriptions.push(activateCommand, deactivateCommand,
+        toggleOutputCommand, stopBuildCommand, nodeTdd);
 }
 
 export function deactivate() { }
