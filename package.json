@@ -1,8 +1,8 @@
 {
     "name": "node-tdd",
     "displayName": "Node TDD",
-    "version": "0.1.0",
-    "description": "A Visual Studio Code extension to ease test-driven development in Node/JavaScript",
+    "version": "0.1.1",
+    "description": "Ease test-driven development in Node/JavaScript",
     "main": "./out/src/extension",
     "repository": {
         "type": "git",
@@ -18,11 +18,13 @@
         "vscode": "^1.8.0"
     },
     "icon": "images/emojione-rocket.png",
-    "galleryBanner": {
-        "color": "#607d8b"
-    },
     "categories": [
         "Other"
+    ],
+    "keywords": [
+        "testing",
+        "node",
+        "javascript"
     ],
     "dependencies": {
         "@types/lodash": "^4.14.50",
@@ -66,22 +68,12 @@
             }
         ],
         "configuration": {
-            "title": "Configuration for Node TDD",
+            "title": "Node TDD configuration",
             "properties": {
                 "nodeTdd.activateOnStartup": {
                     "description": "Activate TDD mode when workspace is opened",
                     "type": "boolean",
                     "default": true
-                },
-                "nodeTdd.runOnActivation": {
-                    "description": "Run tests as soon as TDD mode gets (re-)activated",
-                    "type": "boolean",
-                    "default": false
-                },
-                "nodeTdd.verbose": {
-                    "description": "Show build status dialogs",
-                    "type": "boolean",
-                    "default": false
                 },
                 "nodeTdd.testScript": {
                     "description": "The npm script to run tests",
@@ -92,6 +84,16 @@
                     "description": "The glob pattern for files to watch, relative to the workspace root",
                     "type": "string",
                     "default": "{test,src}/**/*.{js,ts,jsx,tsx}"
+                },
+                "nodeTdd.verbose": {
+                    "description": "Show build status dialogs",
+                    "type": "boolean",
+                    "default": false
+                },
+                "nodeTdd.buildOnActivation": {
+                    "description": "Run tests when TDD mode is activated",
+                    "type": "boolean",
+                    "default": false
                 },
                 "nodeTdd.buildOnCreate": {
                     "description": "Run tests when matching files are created",
@@ -104,12 +106,12 @@
                     "default": false
                 },
                 "nodeTdd.showCoverage": {
-                    "description": "Show the test coverage if reported (experimental)",
+                    "description": "Show the average test coverage if reported (experimental)",
                     "type": "boolean",
                     "default": false
                 },
                 "nodeTdd.coverageThreshold": {
-                    "description": "The coverage threshold",
+                    "description": "The coverage threshold percentage, used to colour-code the coverage",
                     "type": [
                         "number",
                         "null"
@@ -117,6 +119,11 @@
                     "default": null,
                     "minimum": 0,
                     "maximum": 100
+                },
+                "nodeTdd.runOnActivation": {
+                    "description": "Deprecated: use buildOnActivation instead",
+                    "type": "boolean",
+                    "default": false
                 }
             }
         }
