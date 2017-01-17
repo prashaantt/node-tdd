@@ -15,14 +15,16 @@ export const config = {
     PASSING_COLOUR: '#55e269',
 
     ACTIVATE_ON_STARTUP: { name: 'activateOnStartup', defaultValue: true },
-    RUN_ON_ACTIVATION: { name: 'runOnActivation', defaultValue: false },
-    VERBOSE: { name: 'verbose', defaultValue: false },
     TEST_SCRIPT: { name: 'testScript', defaultValue: 'test' },
     GLOB: { name: 'glob', defaultValue: '{test,src}/**/*.{js,ts,jsx,tsx}' },
+    VERBOSE: { name: 'verbose', defaultValue: false },
+    BUILD_ON_ACTIVATION: { name: 'buildOnActivation', defaultValue: false },
     BUILD_ON_CREATE: { name: 'buildOnCreate', defaultValue: false },
     BUILD_ON_DELETE: { name: 'buildOnDelete', defaultValue: false },
     SHOW_COVERAGE: { name: 'showCoverage', defaultValue: false },
-    COVERAGE_THRESHOLD: { name: 'coverageThreshold', defaultValue: null }
+    COVERAGE_THRESHOLD: { name: 'coverageThreshold', defaultValue: null },
+    // deprecated
+    RUN_ON_ACTIVATION: { name: 'runOnActivation', defaultValue: false }
 };
 
 export const messages = {
