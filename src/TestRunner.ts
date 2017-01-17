@@ -1,4 +1,4 @@
-import { exec, ChildProcess } from 'child_process';
+import { spawn, ChildProcess } from 'child_process';
 import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
 import { debounce } from 'lodash';
@@ -55,7 +55,7 @@ export class TestRunner {
     private get testCommand() {
         const scriptName = NodeTDD.getConfig<string>(config.TEST_SCRIPT).trim();
 
-        return scriptName === 'test' ? 'npm test' : `npm run ${scriptName}`;
+        return scriptName === 'test' ? [scriptName] : ['run', scriptName];
     }
 
     private async run() {
@@ -127,15 +127,16 @@ export class TestRunner {
     }
 
     private execProcess(callback: Function) {
-        this.process = exec(this.testCommand, { cwd: workspace.rootPath });
-
+        let coverageString = '';
         const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
+
+        this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath });
 
         this.process.stdout.on('data', (chunk) => {
 
             if (showCoverage) {
-                if (chunk.toString().toLowerCase().includes('coverage')) {
-                    NodeTDD.getInstance().setCoverage(parseCoverage(chunk));
+                if (chunk.toString().toLowerCase().includes('%')) {
+                    coverageString += chunk.toString();
                 }
             }
 
@@ -163,7 +164,11 @@ export class TestRunner {
             }
 
             NodeTDD.getInstance().showInfoDialog(code);
-            NodeTDD.getInstance().showCoverageStatusBar();
+
+            if (coverageString.length) {
+                NodeTDD.getInstance().setCoverage(parseCoverage(coverageString));
+                NodeTDD.getInstance().showCoverageStatusBar();
+            }
         });
     }
 }
