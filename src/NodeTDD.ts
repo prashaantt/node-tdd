@@ -138,7 +138,8 @@ export class NodeTDD {
     setCoverage(coverage?: number) {
         if (coverage) {
             const threshold = NodeTDD.getConfig<number | null>(config.COVERAGE_THRESHOLD);
-            Object.assign(this.coverageStatusBar, messages.coverage(coverage, threshold));
+            const minimal = NodeTDD.getConfig<boolean>(config.MINIMAL);
+            Object.assign(this.coverageStatusBar, messages.coverage(coverage, threshold, minimal));
         }
     }
 

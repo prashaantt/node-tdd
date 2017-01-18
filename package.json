@@ -90,6 +90,11 @@
                     "type": "boolean",
                     "default": false
                 },
+                "nodeTdd.minimal": {
+                    "description": "Minimise status bar clutter",
+                    "type": "boolean",
+                    "default": false
+                },
                 "nodeTdd.buildOnActivation": {
                     "description": "Run tests when TDD mode is activated",
                     "type": "boolean",
