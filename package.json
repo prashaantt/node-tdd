@@ -24,7 +24,8 @@
     "keywords": [
         "testing",
         "node",
-        "javascript"
+        "javascript",
+        "typescript"
     ],
     "dependencies": {
         "@types/lodash": "^4.14.50",
@@ -87,6 +88,11 @@
                 },
                 "nodeTdd.verbose": {
                     "description": "Show build status dialogs",
+                    "type": "boolean",
+                    "default": false
+                },
+                "nodeTdd.minimal": {
+                    "description": "Minimise status bar clutter",
                     "type": "boolean",
                     "default": false
                 },

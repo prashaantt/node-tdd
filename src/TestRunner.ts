@@ -103,10 +103,16 @@ export class TestRunner {
         NodeTDD.getInstance().clearCoverage();
         NodeTDD.getInstance().hideCoverageStatusBar();
 
-        NodeTDD.getInstance().setBuildStatusBar({
-            ...messages.BUILDING,
-            text: messages.BUILDING.text + ' '.repeat(4)
-        });
+        const minimal = NodeTDD.getConfig<boolean>(config.MINIMAL);
+
+        if (minimal) {
+            NodeTDD.getInstance().setBuildStatusBar(messages.building(minimal));
+        } else {
+            NodeTDD.getInstance().setBuildStatusBar({
+                ...messages.building(minimal),
+                text: messages.building(minimal).text + ' '.repeat(4)
+            });
+        }
 
         NodeTDD.getInstance().showBuildStatusBar();
 
@@ -116,13 +122,27 @@ export class TestRunner {
     private animateBuilding() {
         let count = 1;
 
+        const minimal = NodeTDD.getConfig<boolean>(config.MINIMAL);
+
+        if (minimal) {
+            return setInterval(() => {
+                count += 1;
+                const alpha = count % 2 === 0 ? 0 : 1;
+
+                NodeTDD.getInstance().setBuildStatusBar({
+                    text: messages.building(minimal).text,
+                    color: `rgba(255, 255, 255, ${alpha})`
+                });
+            }, config.BUILDING_ANIMATION_SPEED * 3);
+        }
+
         return setInterval(() => {
 
             const dots = count++ % 4;
             const spaces = 4 - dots;
 
             NodeTDD.getInstance().setBuildStatusBar({
-                text: messages.BUILDING.text + '.'.repeat(dots) + ' '.repeat(spaces)
+                text: messages.building(minimal).text + '.'.repeat(dots) + ' '.repeat(spaces)
             });
         }, config.BUILDING_ANIMATION_SPEED);
     }
@@ -154,14 +174,16 @@ export class TestRunner {
             callback();
             this.process = null;
 
+            const minimal = NodeTDD.getConfig<boolean>(config.MINIMAL);
+
             if (signal === 'SIGTERM') {
-                NodeTDD.getInstance().setBuildStatusBar(messages.BUILD_STOPPED);
+                NodeTDD.getInstance().setBuildStatusBar(messages.buildStopped(minimal));
             }
             else if (code === 0) {
-                NodeTDD.getInstance().setBuildStatusBar(messages.PASSING);
+                NodeTDD.getInstance().setBuildStatusBar(messages.passing(minimal));
             }
             else if (code === 1) {
-                NodeTDD.getInstance().setBuildStatusBar(messages.FAILING);
+                NodeTDD.getInstance().setBuildStatusBar(messages.failing(minimal));
             }
 
             NodeTDD.getInstance().showInfoDialog(code);

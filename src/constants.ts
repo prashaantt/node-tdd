@@ -9,7 +9,7 @@ export const config = {
     CONFIG_SECTION_KEY: 'nodeTdd',
     OUTPUT_CHANNEL_NAME: 'TDD',
 
-    BUILDING_ANIMATION_SPEED: 300,
+    BUILDING_ANIMATION_SPEED: 333,
     DEBOUNCE_WAIT_TIME: 400,
     FAILING_COLOUR: '#ff9b9b',
     PASSING_COLOUR: '#55e269',
@@ -18,6 +18,7 @@ export const config = {
     TEST_SCRIPT: { name: 'testScript', defaultValue: 'test' },
     GLOB: { name: 'glob', defaultValue: '{test,src}/**/*.{js,ts,jsx,tsx}' },
     VERBOSE: { name: 'verbose', defaultValue: false },
+    MINIMAL: { name: 'minimal', defaultValue: false },
     BUILD_ON_ACTIVATION: { name: 'buildOnActivation', defaultValue: false },
     BUILD_ON_CREATE: { name: 'buildOnCreate', defaultValue: false },
     BUILD_ON_DELETE: { name: 'buildOnDelete', defaultValue: false },
@@ -30,48 +31,56 @@ export const config = {
 export const messages = {
     ACTIVATE_EXTENSION: {
         text: 'TDD $(rocket)',
-        tooltip: 'Click to deactivate TDD mode',
+        tooltip: 'Deactivate TDD mode',
         command: commands.DEACTIVATE,
     },
 
     DEACTIVATE_EXTENSION: {
         text: 'TDD $(circle-slash)',
-        tooltip: 'Click to activate TDD mode',
+        tooltip: 'Activate TDD mode',
         command: commands.ACTIVATE,
     },
 
-    FAILING: {
-        text: '$(alert) Failing',
-        color: config.FAILING_COLOUR,
-        tooltip: 'Toggle output',
-        command: commands.TOGGLE_OUTPUT
+    failing: function (minimal: boolean) {
+        return {
+            text: minimal ? '$(alert)' : '$(alert) Failing',
+            color: config.FAILING_COLOUR,
+            tooltip: minimal ? 'Build failing' : 'Toggle output',
+            command: commands.TOGGLE_OUTPUT
+        };
     },
 
     FAILING_DIALOG: 'Node TDD: The build failed',
 
-    PASSING: {
-        text: '$(check) Passing',
-        color: config.PASSING_COLOUR,
-        tooltip: 'Toggle output',
-        command: commands.TOGGLE_OUTPUT
+    passing: function (minimal: boolean) {
+        return {
+            text: minimal ? '$(check)' : '$(check) Passing',
+            color: config.PASSING_COLOUR,
+            tooltip: minimal ? 'Build passing' : 'Toggle output',
+            command: commands.TOGGLE_OUTPUT
+        };
     },
 
     PASSING_DIALOG: 'Node TDD: The build passed',
 
     SHOW_OUTPUT_DIALOG: 'Show output',
 
-    BUILDING: {
-        text: '$(tools) Building',
-        color: 'inherit',
-        tooltip: 'Click to stop current build',
-        command: commands.STOP_BUILD
+    building: function (minimal: boolean) {
+        return {
+            text: minimal ? '$(tools)' : '$(tools) Building',
+            color: 'inherit',
+            tooltip: 'Stop current build',
+            command: commands.STOP_BUILD
+        };
     },
 
-    BUILD_STOPPED: {
-        text: 'Build stopped',
-        color: 'inherit',
-        tooltip: '',
-        command: ''
+    buildStopped: function (minimal: boolean) {
+        return {
+            text: minimal ? '$(stop)' : 'Build stopped',
+            color: 'inherit',
+            tooltip: minimal ? 'Build stopped' : '',
+            command: ''
+        };
     },
 
     STOPPED_DIALOG: 'Node TDD: The build was stopped',
@@ -82,12 +91,13 @@ export const messages = {
 
     DEACTIVATE_DIALOG: 'Deactivate TDD mode',
 
-    coverage: function (coverage: number, threshold: number | null) {
+    coverage: function (coverage: number, threshold: number | null, minimal: boolean) {
         return {
-            text: `$(dashboard) ${coverage}%`,
+            text: minimal ? `${coverage}` : `$(dashboard) ${coverage}%`,
             tooltip: 'Test coverage',
             color: threshold ? (coverage >= threshold ?
-                config.PASSING_COLOUR : config.FAILING_COLOUR) : 'inherit'
+                config.PASSING_COLOUR : config.FAILING_COLOUR) : 'inherit',
+            command: commands.TOGGLE_OUTPUT
         };
     },
 
