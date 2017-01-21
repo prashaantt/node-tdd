@@ -1,3 +1,5 @@
+import { getMessage, Status, Report } from './utils';
+
 export const commands = {
     ACTIVATE: 'nodeTdd.activate',
     DEACTIVATE: 'nodeTdd.deactivate',
@@ -17,6 +19,7 @@ export const config = {
     ACTIVATE_ON_STARTUP: { name: 'activateOnStartup', defaultValue: true },
     TEST_SCRIPT: { name: 'testScript', defaultValue: 'test' },
     GLOB: { name: 'glob', defaultValue: '{test,src}/**/*.{js,ts,jsx,tsx}' },
+    REPORTER: { name: 'reporter', defaultValue: null },
     VERBOSE: { name: 'verbose', defaultValue: false },
     MINIMAL: { name: 'minimal', defaultValue: false },
     BUILD_ON_ACTIVATION: { name: 'buildOnActivation', defaultValue: false },
@@ -41,22 +44,26 @@ export const messages = {
         command: commands.ACTIVATE,
     },
 
-    failing: function (minimal: boolean) {
+    failing: async function (minimal: boolean, report?: Report) {
+        const message = await getMessage(Status.FAILING, minimal, report);
+
         return {
-            text: minimal ? '$(alert)' : '$(alert) Failing',
+            text: message.text,
             color: config.FAILING_COLOUR,
-            tooltip: minimal ? 'Build failing' : 'Toggle output',
+            tooltip: message.tooltip,
             command: commands.TOGGLE_OUTPUT
         };
     },
 
     FAILING_DIALOG: 'Node TDD: The build failed',
 
-    passing: function (minimal: boolean) {
+    passing: async function (minimal: boolean, report?: Report) {
+        const message = await getMessage(Status.PASSING, minimal, report);
+
         return {
-            text: minimal ? '$(check)' : '$(check) Passing',
+            text: message.text,
             color: config.PASSING_COLOUR,
-            tooltip: minimal ? 'Build passing' : 'Toggle output',
+            tooltip: message.tooltip,
             command: commands.TOGGLE_OUTPUT
         };
     },

@@ -54,9 +54,9 @@ suite('Constants', () => {
         assert.equal(message, 'Node TDD: The npm script `test` was not found');
     });
 
-    test('return correct failing message', () => {
+    test('return correct failing message', async () => {
 
-        const message = messages.failing(false);
+        const message = await messages.failing(false);
         assert.deepEqual(message, {
             text: '$(alert) Failing',
             color: config.FAILING_COLOUR,
@@ -65,9 +65,9 @@ suite('Constants', () => {
         });
     });
 
-    test('return correct failing message in minimal mode', () => {
+    test('return correct failing message in minimal mode', async () => {
 
-        const message = messages.failing(true);
+        const message = await messages.failing(true);
         assert.deepEqual(message, {
             text: '$(alert)',
             color: config.FAILING_COLOUR,
@@ -76,9 +76,73 @@ suite('Constants', () => {
         });
     });
 
-    test('return correct passing message', () => {
+    test('return correct failing message for tap reporter', async () => {
 
-        const message = messages.passing(false);
+        const report = {
+            reporter: 'tap',
+            stdout: `TAP version 13
+# beep
+ok 1 should be equal
+ok 2 should be equivalent
+# boop
+ok 3 should be equal
+not ok 4 should be truthy
+  ---
+    operator: ok
+    expected: true
+    actual:   false
+  ...
+
+1..4
+# tests 4
+# pass  4
+# fail  1`
+        };
+
+        const message = await messages.failing(false, report);
+        assert.deepEqual(message, {
+            text: '$(alert) 3/4',
+            color: config.FAILING_COLOUR,
+            tooltip: 'Toggle output',
+            command: commands.TOGGLE_OUTPUT
+        });
+    });
+
+    test('return correct failing message for tap reporter in minimal mode', async () => {
+
+        const report = {
+            reporter: 'tap',
+            stdout: `TAP version 13
+# beep
+ok 1 should be equal
+ok 2 should be equivalent
+# boop
+ok 3 should be equal
+not ok 4 should be truthy
+  ---
+    operator: ok
+    expected: true
+    actual:   false
+  ...
+
+1..4
+# tests 4
+# pass  4
+# fail  1`
+        };
+
+        const message = await messages.failing(true, report);
+        assert.deepEqual(message, {
+            text: '$(alert)',
+            color: config.FAILING_COLOUR,
+            tooltip: 'Build failing (3/4)',
+            command: commands.TOGGLE_OUTPUT
+        });
+    });
+
+    test('return correct passing message', async () => {
+
+        const message = await messages.passing(false);
         assert.deepEqual(message, {
             text: '$(check) Passing',
             color: config.PASSING_COLOUR,
@@ -87,13 +151,69 @@ suite('Constants', () => {
         });
     });
 
-    test('return correct passing message in minimal mode', () => {
+    test('return correct passing message in minimal mode', async () => {
 
-        const message = messages.passing(true);
+        const message = await messages.passing(true);
         assert.deepEqual(message, {
             text: '$(check)',
             color: config.PASSING_COLOUR,
             tooltip: 'Build passing',
+            command: commands.TOGGLE_OUTPUT
+        });
+    });
+
+    test('return correct passing message for tap reporter', async () => {
+
+        const report = {
+            reporter: 'tap',
+            stdout: `TAP version 13
+# beep
+ok 1 should be equal
+ok 2 should be equivalent
+# boop
+ok 3 should be equal
+ok 4 (unnamed assert)
+
+1..4
+# tests 4
+# pass  4
+
+# ok`
+        };
+
+        const message = await messages.passing(false, report);
+        assert.deepEqual(message, {
+            text: '$(check) 4/4',
+            color: config.PASSING_COLOUR,
+            tooltip: 'Toggle output',
+            command: commands.TOGGLE_OUTPUT
+        });
+    });
+
+    test('return correct passing message for tap reporter in minimal mode', async () => {
+
+        const report = {
+            reporter: 'tap',
+            stdout: `TAP version 13
+# beep
+ok 1 should be equal
+ok 2 should be equivalent
+# boop
+ok 3 should be equal
+ok 4 (unnamed assert)
+
+1..4
+# tests 4
+# pass  4
+
+# ok`
+        };
+
+        const message = await messages.passing(true, report);
+        assert.deepEqual(message, {
+            text: '$(check)',
+            color: config.PASSING_COLOUR,
+            tooltip: 'Build passing (4/4)',
             command: commands.TOGGLE_OUTPUT
         });
     });
