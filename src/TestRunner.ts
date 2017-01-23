@@ -1,7 +1,7 @@
 import { spawn, ChildProcess } from 'child_process';
 import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
-import { debounce } from 'lodash';
+const debounce = require('lodash.debounce');
 
 import { NodeTDD } from './NodeTDD';
 import { messages, config } from './constants';
