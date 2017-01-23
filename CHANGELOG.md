@@ -3,6 +3,14 @@ All notable changes to `node-tdd` will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2017-01-23
+### Added
+- `minimal` setting to declutter the status bar.
+- `reporter` setting to parse [TAP](https://testanything.org/producers.html#javascript) outputs.
+
+### Removed
+- The deprecated `runOnActivation` setting.
+
 ## [0.1.1] - 2017-01-17
 ### Changed
 - Deprecated the `runOnActivation` setting in favour of `buildOnActivation` for better consistency in config names. `runOnActivation` will be removed in the next release.

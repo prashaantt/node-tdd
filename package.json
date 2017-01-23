@@ -84,7 +84,7 @@
                 "nodeTdd.glob": {
                     "description": "The glob pattern for files to watch, relative to the workspace root",
                     "type": "string",
-                    "default": "{test,src}/**/*.{js,ts,jsx,tsx}"
+                    "default": "{src,test}/**/*.{js,ts,jsx,tsx}"
                 },
                 "nodeTdd.reporter": {
                     "description": "The test reporter used",
