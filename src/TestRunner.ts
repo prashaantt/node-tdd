@@ -148,8 +148,10 @@ export class TestRunner {
     }
 
     private execProcess(callback: Function) {
+        let stdout = '';
         let coverageString = '';
         const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
+        const reporter = NodeTDD.getConfig<string | null>(config.REPORTER);
 
         this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath });
 
@@ -161,7 +163,12 @@ export class TestRunner {
                 }
             }
 
-            NodeTDD.getInstance().appendOutput(chunk.toString());
+            const chunkStr = chunk.toString();
+            NodeTDD.getInstance().appendOutput(chunkStr);
+
+            if (reporter) {
+                stdout += chunkStr;
+            }
         });
 
         this.process.stderr.on('data', (chunk) => {
@@ -169,21 +176,30 @@ export class TestRunner {
             NodeTDD.getInstance().appendOutput(chunk.toString());
         });
 
-        this.process.on('close', (code, signal) => {
+        this.process.on('close', async (code, signal) => {
 
             callback();
             this.process = null;
 
             const minimal = NodeTDD.getConfig<boolean>(config.MINIMAL);
 
+            let report;
+
+            if (reporter) {
+                report = {
+                    reporter,
+                    stdout
+                };
+            }
+
             if (signal === 'SIGTERM') {
                 NodeTDD.getInstance().setBuildStatusBar(messages.buildStopped(minimal));
             }
             else if (code === 0) {
-                NodeTDD.getInstance().setBuildStatusBar(messages.passing(minimal));
+                NodeTDD.getInstance().setBuildStatusBar(await messages.passing(minimal, report));
             }
             else if (code === 1) {
-                NodeTDD.getInstance().setBuildStatusBar(messages.failing(minimal));
+                NodeTDD.getInstance().setBuildStatusBar(await messages.failing(minimal, report));
             }
 
             NodeTDD.getInstance().showInfoDialog(code);
