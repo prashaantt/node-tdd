@@ -32,8 +32,7 @@ export class TestRunner {
             this.fsWatcher.onDidDelete(debounce(this.run.bind(this), config.DEBOUNCE_WAIT_TIME));
         }
 
-        if (NodeTDD.getConfig<boolean>(config.RUN_ON_ACTIVATION)
-            || NodeTDD.getConfig<boolean>(config.BUILD_ON_ACTIVATION)) {
+        if (NodeTDD.getConfig<boolean>(config.BUILD_ON_ACTIVATION)) {
             this.run();
         }
     }

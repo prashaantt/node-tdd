@@ -26,9 +26,7 @@ export const config = {
     BUILD_ON_CREATE: { name: 'buildOnCreate', defaultValue: false },
     BUILD_ON_DELETE: { name: 'buildOnDelete', defaultValue: false },
     SHOW_COVERAGE: { name: 'showCoverage', defaultValue: false },
-    COVERAGE_THRESHOLD: { name: 'coverageThreshold', defaultValue: null },
-    // deprecated
-    RUN_ON_ACTIVATION: { name: 'runOnActivation', defaultValue: false }
+    COVERAGE_THRESHOLD: { name: 'coverageThreshold', defaultValue: null }
 };
 
 export const messages = {

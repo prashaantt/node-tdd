@@ -137,11 +137,6 @@
                     "default": null,
                     "minimum": 0,
                     "maximum": 100
-                },
-                "nodeTdd.runOnActivation": {
-                    "description": "Deprecated: use buildOnActivation instead",
-                    "type": "boolean",
-                    "default": false
                 }
             }
         }
