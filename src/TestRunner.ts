@@ -132,7 +132,7 @@ export class TestRunner {
                     text: messages.building(minimal).text,
                     color: `rgba(255, 255, 255, ${alpha})`
                 });
-            }, config.BUILDING_ANIMATION_SPEED * 3);
+            }, config.BUILDING_ANIMATION_SPEED * 2);
         }
 
         return setInterval(() => {
