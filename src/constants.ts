@@ -100,11 +100,10 @@ export const messages = {
 
     coverage: function (coverage: number, threshold: number | null, minimal: boolean) {
         return {
-            text: minimal ? `${coverage}` : `$(dashboard) ${coverage}%`,
+            text: minimal ? `${coverage}%` : `$(dashboard) ${coverage}%`,
             tooltip: 'Test coverage',
             color: threshold ? (coverage >= threshold ?
-                config.PASSING_COLOUR : config.FAILING_COLOUR) : 'inherit',
-            command: commands.TOGGLE_OUTPUT
+                config.PASSING_COLOUR : config.FAILING_COLOUR) : 'inherit'
         };
     },
 

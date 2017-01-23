@@ -10,8 +10,7 @@ suite('Constants', () => {
         assert.deepEqual(message, {
             text: '$(dashboard) 84%',
             tooltip: 'Test coverage',
-            color: 'inherit',
-            command: commands.TOGGLE_OUTPUT
+            color: 'inherit'
         });
     });
 
@@ -19,10 +18,9 @@ suite('Constants', () => {
 
         const message = messages.coverage(84, null, true);
         assert.deepEqual(message, {
-            text: '84',
+            text: '84%',
             tooltip: 'Test coverage',
-            color: 'inherit',
-            command: commands.TOGGLE_OUTPUT
+            color: 'inherit'
         });
     });
 
@@ -32,8 +30,7 @@ suite('Constants', () => {
         assert.deepEqual(message, {
             text: '$(dashboard) 84%',
             tooltip: 'Test coverage',
-            color: config.FAILING_COLOUR,
-            command: commands.TOGGLE_OUTPUT
+            color: config.FAILING_COLOUR
         });
     });
 
@@ -41,10 +38,9 @@ suite('Constants', () => {
 
         const message = messages.coverage(84, 100, true);
         assert.deepEqual(message, {
-            text: '84',
+            text: '84%',
             tooltip: 'Test coverage',
-            color: config.FAILING_COLOUR,
-            command: commands.TOGGLE_OUTPUT
+            color: config.FAILING_COLOUR
         });
     });
 
@@ -133,9 +129,9 @@ not ok 4 should be truthy
 
         const message = await messages.failing(true, report);
         assert.deepEqual(message, {
-            text: '$(alert)',
+            text: '3/4',
             color: config.FAILING_COLOUR,
-            tooltip: 'Build failing (3/4)',
+            tooltip: 'Build failing',
             command: commands.TOGGLE_OUTPUT
         });
     });
@@ -211,9 +207,9 @@ ok 4 (unnamed assert)
 
         const message = await messages.passing(true, report);
         assert.deepEqual(message, {
-            text: '$(check)',
+            text: '4/4',
             color: config.PASSING_COLOUR,
-            tooltip: 'Build passing (4/4)',
+            tooltip: 'Build passing',
             command: commands.TOGGLE_OUTPUT
         });
     });

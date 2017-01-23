@@ -53,13 +53,19 @@ interface Result {
 export async function getMessage(status: Status, minimal?: boolean, report?: Report) {
     let text = '';
     let tooltip = '';
-    text = status === Status.PASSING ? '$(check)' : '$(alert)';
     const stats = await getStats(report);
+
     if (minimal) {
+        if (report && stats) {
+            text = stats;
+        }
+        else {
+            text = status === Status.PASSING ? '$(check)' : '$(alert)';
+        }
         tooltip = status === Status.PASSING ? 'Build passing' : 'Build failing';
-        tooltip += stats ? ` (${stats})` : '';
     }
     else {
+        text = status === Status.PASSING ? '$(check)' : '$(alert)';
         if (stats) {
             text += ' ' + stats;
         }
@@ -68,6 +74,7 @@ export async function getMessage(status: Status, minimal?: boolean, report?: Rep
         }
         tooltip = 'Toggle output';
     }
+
     return {
         text,
         tooltip
