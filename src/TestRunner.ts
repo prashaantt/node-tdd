@@ -39,7 +39,7 @@ export class TestRunner {
 
     stop() {
         if (this.process) {
-            this.process.kill();
+            process.kill(-this.process.pid);
         }
     }
 
@@ -152,7 +152,9 @@ export class TestRunner {
         const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
         const reporter = NodeTDD.getConfig<string | null>(config.REPORTER);
 
-        this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath });
+        this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath, detached: true });
+
+        this.process.unref();
 
         this.process.stdout.on('data', (chunk) => {
 
