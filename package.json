@@ -1,8 +1,8 @@
 {
     "name": "node-tdd",
     "displayName": "Node TDD",
-    "version": "0.2.1",
-    "description": "Ease test-driven development in Node/JavaScript",
+    "version": "0.2.2",
+    "description": "Ease test-driven development in Node and JavaScript",
     "main": "./out/src/extension",
     "repository": {
         "type": "git",
