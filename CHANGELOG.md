@@ -3,6 +3,10 @@ All notable changes to `node-tdd` will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.3] - 2017-01-29
+### Fixed
+- A regression where attempting to stop the process on Windows [throws an error](https://github.com/prashaantt/node-tdd/issues/5).
+
 ## [0.2.2] - 2017-01-28
 ### Fixed
 - An issue where complex test scripts spawning multiple child processes were not getting killed when the build was stopped.
