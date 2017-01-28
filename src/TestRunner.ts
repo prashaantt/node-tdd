@@ -39,7 +39,7 @@ export class TestRunner {
 
     stop() {
         if (this.process) {
-            process.kill(-this.process.pid);
+            process.kill(-this.process.pid, 'SIGKILL');
         }
     }
 
@@ -193,7 +193,7 @@ export class TestRunner {
                 };
             }
 
-            if (signal === 'SIGTERM') {
+            if (signal) {
                 NodeTDD.getInstance().setBuildStatusBar(messages.buildStopped(minimal));
             }
             else if (code === 0) {
