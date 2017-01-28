@@ -1,6 +1,6 @@
 # node-tdd
 
-> A [Visual Studio Code](http://code.visualstudio.com/) [extension](https://marketplace.visualstudio.com/items?itemName=prashaantt.node-tdd) to ease [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) in Node/JavaScript.
+> A [Visual Studio Code](http://code.visualstudio.com/) [extension](https://marketplace.visualstudio.com/items?itemName=prashaantt.node-tdd) to ease [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) in Node and JavaScript.
 
 ## Features
 
@@ -10,7 +10,7 @@
 - Triggers an automatic test build whenever source files are updated.
 - Shows a colour-coded build summary.
 - Shows the average test coverage (experimental).
-- Optionally, if your test runner generates [TAP output](https://testanything.org/producers.html#javascript), use the `nodeTdd.reporter` [setting](#settings) to provide a more meaningful test summary:
+- Optionally, if your test runner generates [TAP outputs](https://testanything.org/producers.html#javascript), use the `nodeTdd.reporter` setting to provide a more meaningful test summary:
 
 ![tap](images/tap.png)
 
