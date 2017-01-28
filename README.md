@@ -52,6 +52,7 @@ The following commands are available from the commands menu as well as status ba
 - The extension doesn't get activated if `package.json` was not initially present when the workspace was opened; a window restart will be required to detect a change.
 - It doesn't work with watch mode/incremental test builds. The build process used for running tests must exit on each execution, otherwise it will never report the status.
 - `showCoverage` is an experimental setting that currently only works with the text-summary reports from [Lab](https://github.com/hapijs/lab), [Istanbul](https://github.com/gotwarlost/istanbul) and [nyc](https://github.com/istanbuljs/nyc). Disable it if it doesn't work for you or its output looks funny.
+- It might be [very flaky](https://github.com/prashaantt/node-tdd/issues/5) on Windows. Any help on improving Windows support would be great.
 - Ironically for a TDD extension, it has very few tests of its own because I don't yet know how to test UI elements in VS Code. :/
 
 Suggestions and PRs are [welcome](https://github.com/prashaantt/node-tdd/issues).
