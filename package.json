@@ -30,6 +30,7 @@
     "dependencies": {
         "lodash.debounce": "^4.0.8",
         "tap-parser": "^5.2.0",
+        "tree-kill": "^1.1.0",
         "tslib": "^1.5.0"
     },
     "devDependencies": {

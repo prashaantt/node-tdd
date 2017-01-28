@@ -2,6 +2,7 @@ import { spawn, ChildProcess } from 'child_process';
 import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
 const debounce = require('lodash.debounce');
+const kill = require('tree-kill');
 
 import { NodeTDD } from './NodeTDD';
 import { messages, config } from './constants';
@@ -39,7 +40,7 @@ export class TestRunner {
 
     stop() {
         if (this.process) {
-            process.kill(-this.process.pid, 'SIGKILL');
+            kill(this.process.pid, 'SIGKILL');
         }
     }
 
