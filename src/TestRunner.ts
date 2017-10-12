@@ -1,6 +1,7 @@
 import { spawn, ChildProcess } from 'child_process';
 import { resolve } from 'path';
 import { window, workspace, FileSystemWatcher } from 'vscode';
+import * as os from 'os';
 const debounce = require('lodash.debounce');
 const kill = require('tree-kill');
 
@@ -153,7 +154,8 @@ export class TestRunner {
         const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
         const reporter = NodeTDD.getConfig<string | null>(config.REPORTER);
 
-        this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath, detached: true });
+        var isWindowsPlatform = os.platform() === 'win32';
+        this.process = spawn( isWindowsPlatform ? 'npm.cmd' : 'npm', this.testCommand, { cwd: workspace.rootPath, detached: isWindowsPlatform ? false : true });
 
         this.process.unref();
 
