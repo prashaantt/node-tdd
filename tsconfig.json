@@ -8,9 +8,7 @@
         ],
         "sourceMap": true,
         "rootDir": ".",
-        "strictNullChecks": true,
-        "alwaysStrict": true,
-        "noImplicitAny": true,
+        "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "importHelpers": true
