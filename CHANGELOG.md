@@ -3,6 +3,13 @@ All notable changes to `node-tdd` will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.4] - 2017-10-23
+### Fixed
+- Build issues on Windows (🤞).
+
+### Added
+- Additional option `onlyOnFailure` for `verbose` to select what build status to show verbose dialogs for.
+
 ## [0.2.3] - 2017-01-29
 ### Fixed
 - A regression where attempting to stop the process on Windows [throws an error](https://github.com/prashaantt/node-tdd/issues/5).

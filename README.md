@@ -22,19 +22,19 @@
 
 This extension contributes the following settings:
 
-| Setting                     | Type           | Default                           | Description                                                         |
-| --------------------------- | -------------- | --------------------------------- | ------------------------------------------------------------------- |
-| `nodeTdd.activateOnStartup` | boolean        | `true`                            | Activate TDD mode when workspace is opened                          |
-| `nodeTdd.testScript`        | string         | `test`                            | The npm script to run tests                                         |
-| `nodeTdd.glob`              | string         | `{src,test}/**/*.{js,ts,jsx,tsx}` | The glob pattern for files to watch, relative to the workspace root |
-| `nodeTdd.verbose`           | boolean        | `false`                           | Show build status dialogs                                           |
-| `nodeTdd.minimal`           | boolean        | `false`                           | Minimise status bar clutter                                         |
-| `nodeTdd.buildOnActivation` | boolean        | `false`                           | Run tests when TDD mode is activated                                |
-| `nodeTdd.buildOnCreate`     | boolean        | `false`                           | Run tests when matching files are created                           |
-| `nodeTdd.buildOnDelete`     | boolean        | `false`                           | Run tests when matching files are deleted                           |
-| `nodeTdd.showCoverage`      | boolean        | `false`                           | Show the average test coverage if reported (experimental)           |
-| `nodeTdd.coverageThreshold` | number / null  | `null`                            | The coverage threshold percentage, used to colour-code the coverage |
-| `nodeTdd.reporter`          | string / null  | `null`                            | The test reporter used (currently only "tap" is supported)          |
+| Setting                     | Type             | Default                           | Description                                                         |
+| --------------------------- | ---------------- | --------------------------------- | ------------------------------------------------------------------- |
+| `nodeTdd.activateOnStartup` | boolean          | `true`                            | Activate TDD mode when workspace is opened                          |
+| `nodeTdd.testScript`        | string           | `test`                            | The npm script to run tests                                         |
+| `nodeTdd.glob`              | string           | `{src,test}/**/*.{js,ts,jsx,tsx}` | The glob pattern for files to watch, relative to the workspace root |
+| `nodeTdd.verbose`           | boolean / object | `false` / `{onlyOnFailure: true}` | Show build status dialogs                                           |
+| `nodeTdd.minimal`           | boolean          | `false`                           | Minimise status bar clutter                                         |
+| `nodeTdd.buildOnActivation` | boolean          | `false`                           | Run tests when TDD mode is activated                                |
+| `nodeTdd.buildOnCreate`     | boolean          | `false`                           | Run tests when matching files are created                           |
+| `nodeTdd.buildOnDelete`     | boolean          | `false`                           | Run tests when matching files are deleted                           |
+| `nodeTdd.showCoverage`      | boolean          | `false`                           | Show the average test coverage if reported (experimental)           |
+| `nodeTdd.coverageThreshold` | number / null    | `null`                            | The coverage threshold percentage, used to colour-code the coverage |
+| `nodeTdd.reporter`          | string / null    | `null`                            | The test reporter used (currently only "tap" is supported)          |
 
 ## Commands
 
@@ -52,7 +52,7 @@ The following commands are available from the commands menu as well as status ba
 - The extension doesn't get activated if `package.json` was not initially present when the workspace was opened; a window restart will be required to detect a change.
 - It doesn't work with watch mode/incremental test builds. The build process used for running tests must exit on each execution, otherwise it will never report the status.
 - `showCoverage` is an experimental setting that currently only works with the text-summary reports from [Lab](https://github.com/hapijs/lab), [Istanbul](https://github.com/gotwarlost/istanbul) and [nyc](https://github.com/istanbuljs/nyc). Disable it if it doesn't work for you or its output looks funny.
-- It might be [very flaky](https://github.com/prashaantt/node-tdd/issues/5) on Windows. Any help on improving Windows support would be great.
+- Despite recent fixes, it might still be [flaky](https://github.com/prashaantt/node-tdd/issues/5) on Windows. Please report any issues.
 - Ironically for a TDD extension, it has very few tests of its own because I don't yet know how to test UI elements in VS Code. :/
 
 Suggestions and PRs are [welcome](https://github.com/prashaantt/node-tdd/issues).
