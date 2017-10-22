@@ -111,13 +111,17 @@ export class NodeTDD {
     }
 
     async showInfoDialog(code: number | null) {
-        if (!NodeTDD.getConfig<boolean>(config.VERBOSE)) {
+        const verbose = NodeTDD.getConfig<boolean | { onlyOnFailure: boolean }>(config.VERBOSE);
+
+        if (typeof verbose === 'boolean' && !verbose) {
             return;
         }
 
         let clicked;
 
-        if (code === 0) {
+        const notOnlyOnFailure = verbose === true || !verbose.onlyOnFailure;
+
+        if (notOnlyOnFailure && code === 0) {
             clicked = await window.showInformationMessage(
                 messages.PASSING_DIALOG, messages.SHOW_OUTPUT_DIALOG);
         }
@@ -125,7 +129,7 @@ export class NodeTDD {
             clicked = await window.showErrorMessage(
                 messages.FAILING_DIALOG, messages.SHOW_OUTPUT_DIALOG);
         }
-        else if (code === null) {
+        else if (notOnlyOnFailure && code === null) {
             window.showWarningMessage(messages.STOPPED_DIALOG);
         }
 

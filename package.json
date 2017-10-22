@@ -102,8 +102,17 @@
                 },
                 "nodeTdd.verbose": {
                     "description": "Show build status dialogs",
-                    "type": "boolean",
-                    "default": false
+                    "type": [
+                        "boolean",
+                        "object"
+                    ],
+                    "default": false,
+                    "additionalProperties": false,
+                    "properties": {
+                        "onlyOnFailure": {
+                            "type": "boolean"
+                        }
+                    }
                 },
                 "nodeTdd.minimal": {
                     "description": "Minimise status bar clutter",
