@@ -153,7 +153,11 @@ export class TestRunner {
         const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
         const reporter = NodeTDD.getConfig<string | null>(config.REPORTER);
 
-        this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath, detached: true });
+        if (process.platform === 'win32') {
+            this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath, shell: process.env['comspec'] });
+        } else {
+            this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath, detached: true });
+        }
 
         this.process.unref();
 
