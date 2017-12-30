@@ -1,6 +1,5 @@
 import { spawn, ChildProcess } from 'child_process';
-import { resolve } from 'path';
-import { window, workspace, FileSystemWatcher } from 'vscode';
+import { window, workspace, FileSystemWatcher, RelativePattern } from 'vscode';
 const debounce = require('lodash.debounce');
 const kill = require('tree-kill');
 
@@ -17,7 +16,10 @@ export class TestRunner {
         const buildOnDelete = NodeTDD.getConfig<boolean>(config.BUILD_ON_DELETE);
 
         if (!this.fsWatcher) {
-            const globPath = resolve(workspace.rootPath, NodeTDD.getConfig<string>(config.GLOB));
+            // It's safe to assume workspace.workspaceFolders to exist,
+            // because it has been checked already before calling watch()
+            const globPath = new RelativePattern(
+                workspace.workspaceFolders![0], NodeTDD.getConfig<string>(config.GLOB));
 
             this.fsWatcher = workspace.createFileSystemWatcher(
                 globPath, !buildOnCreate, false, !buildOnDelete);

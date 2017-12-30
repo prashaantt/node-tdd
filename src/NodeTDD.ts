@@ -33,7 +33,7 @@ export class NodeTDD {
     }
 
     private constructor() {
-        if (workspace.rootPath) {
+        if (workspace.workspaceFolders) {
             this.outputChannel = window.createOutputChannel(config.OUTPUT_CHANNEL_NAME);
             this.testRunner = new TestRunner();
 
