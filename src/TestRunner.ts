@@ -54,9 +54,18 @@ export class TestRunner {
     }
 
     private get testCommand() {
-        const scriptName = NodeTDD.getConfig<string>(config.TEST_SCRIPT).trim();
+        const finalCommandArray = []
+        const commandArrayConfig = NodeTDD.getConfig(config.TEST_COMMAND_ARRAY);
+        const activeFilePathFull = window.activeTextEditor.document.fileName;
+        const workspace0FullPath = workspace.workspaceFolders[0].uri.fsPath;
+        const activeFilePathLocal = activeFilePathFull.substring(workspace0FullPath.length + 1);
+        for (const commandItem of commandArrayConfig) {
+            let replacedItem = commandItem.replace('$FILE_PATH_LOCAL', activeFilePathLocal);
+            replacedItem = replacedItem.replace('$FILE_PATH_FULL', activeFilePathFull);
+            finalCommandArray.push(replacedItem);
+        }
 
-        return scriptName === 'test' ? [scriptName] : ['run', scriptName];
+        return finalCommandArray;
     }
 
     private async run() {
@@ -77,23 +86,6 @@ export class TestRunner {
 
             if (selection === messages.DEACTIVATE_DIALOG) {
                 NodeTDD.getInstance().deactivate();
-            }
-
-            return;
-        }
-
-        const scriptName = NodeTDD.getConfig<string>(config.TEST_SCRIPT).trim();
-
-        if (!packageObj.scripts[scriptName]) {
-            const selection = await window.showErrorMessage(
-                messages.scriptNotFound(scriptName), messages.OPEN_PACKAGE_JSON);
-
-            if (selection === messages.OPEN_PACKAGE_JSON) {
-                workspace.openTextDocument(workspace.rootPath + '/package.json')
-                    .then(textDocument => {
-
-                        window.showTextDocument(textDocument);
-                    });
             }
 
             return;
@@ -153,10 +145,12 @@ export class TestRunner {
         const showCoverage = NodeTDD.getConfig<boolean>(config.SHOW_COVERAGE);
         const reporter = NodeTDD.getConfig<string | null>(config.REPORTER);
 
+        NodeTDD.getInstance().appendOutput(`[Node TDD] Command to be run: ${this.testCommand.join(' ')}\n`);
+
         if (process.platform === 'win32') {
-            this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath, shell: process.env['comspec'] });
+            this.process = spawn(this.testCommand[0], this.testCommand.slice(1), { cwd: workspace.rootPath, shell: process.env['comspec'] });
         } else {
-            this.process = spawn('npm', this.testCommand, { cwd: workspace.rootPath, detached: true });
+            this.process = spawn(this.testCommand[0], this.testCommand.slice(1), { cwd: workspace.rootPath, detached: true });
         }
 
         this.process.unref();

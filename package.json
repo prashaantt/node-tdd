@@ -29,17 +29,17 @@
     ],
     "dependencies": {
         "lodash.debounce": "^4.0.8",
-        "tap-parser": "^6.0.1",
-        "tree-kill": "^1.2.0",
-        "tslib": "^1.8.0"
+        "tap-parser": "^10.1.0",
+        "tree-kill": "^1.2.2",
+        "tslib": "^2.3.1"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.43",
-        "@types/node": "^8.0.46",
-        "mocha": "^4.0.1",
-        "tslint": "^5.8.0",
-        "typescript": "^2.5.3",
-        "vscode": "^1.1.6"
+        "@types/mocha": "^9.0.0",
+        "@types/node": "^12.12.6",
+        "mocha": "^9.1.1",
+        "tslint": "^6.1.3",
+        "typescript": "^4.4.2",
+        "vscode": "^1.1.37"
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
@@ -78,10 +78,15 @@
                     "type": "boolean",
                     "default": true
                 },
-                "nodeTdd.testScript": {
-                    "description": "The npm script to run tests",
-                    "type": "string",
-                    "default": "test"
+                "nodeTdd.testCommandArray": {
+                    "description": "Command line items to be passed to spawn(). Placeholders available:\n\n$FILE_PATH_LOCAL - the path to the current open file relative to workspace 1\n$FILE_PATH_FULL - the full absolute path to the current open file",
+                    "type": "array",
+                    "items": {
+                        "description": "Arg value",
+                        "type": "string",
+                        "default": ""
+                    },
+                    "default": ["npm", "test"]
                 },
                 "nodeTdd.glob": {
                     "description": "The glob pattern for files to watch, relative to the workspace root",

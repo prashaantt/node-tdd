@@ -17,7 +17,7 @@ export const config = {
     PASSING_COLOUR: '#55e269',
 
     ACTIVATE_ON_STARTUP: { name: 'activateOnStartup', defaultValue: true },
-    TEST_SCRIPT: { name: 'testScript', defaultValue: 'test' },
+    TEST_COMMAND_ARRAY: { name: 'testCommandArray', defaultValue: ['npm', 'test'] },
     GLOB: { name: 'glob', defaultValue: '{test,src}/**/*.{js,ts,jsx,tsx}' },
     REPORTER: { name: 'reporter', defaultValue: null },
     VERBOSE: { name: 'verbose', defaultValue: false },
