@@ -79,7 +79,7 @@
                     "default": true
                 },
                 "nodeTdd.testCommandArray": {
-                    "description": "Command line items to be passed to spawn(). Placeholders available:\n\n$FILE_PATH_LOCAL - the path to the current open file relative to workspace 1\n$FILE_PATH_FULL - the full absolute path to the current open file",
+                    "description": "Command line items to be passed to spawn(). Placeholders available:\n$FILE_PATH_LOCAL - the path to the current open file relative to workspace 1\n$FILE_PATH_FULL - the full absolute path to the current open file\n",
                     "type": "array",
                     "items": {
                         "description": "Arg value",
